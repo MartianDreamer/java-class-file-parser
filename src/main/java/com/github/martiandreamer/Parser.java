@@ -58,7 +58,7 @@ public class Parser {
         return result;
     }
 
-    public boolean isClassFile() {
+    private boolean isClassFile() {
         return Arrays.compare(content, 0, 4, MAGIC_NUMBER, 0, 4) == 0;
     }
 

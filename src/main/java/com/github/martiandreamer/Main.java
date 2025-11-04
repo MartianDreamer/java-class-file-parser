@@ -26,4 +26,5 @@ void main(String[] args) throws InvalidClassFileFormatException, JsonProcessingE
     }
     Parser parser = new Parser(className, content);
     System.out.println(objectMapper.writeValueAsString(parser.parse()));
+    System.exit(0);
 }

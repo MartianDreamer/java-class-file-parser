@@ -1,5 +1,7 @@
 package com.github.martiandreamer.cp;
 
+import java.util.Arrays;
+
 public class ConstantPool {
     private final ConstantInfo[] constantPool;
 
@@ -26,6 +28,6 @@ public class ConstantPool {
 
     @Override
     public String toString() {
-        return "constantPool=" + constantPool;
+        return "constantPool=" + Arrays.toString(constantPool);
     }
 }

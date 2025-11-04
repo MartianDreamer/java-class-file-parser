@@ -1,20 +1,16 @@
 package com.github.martiandreamer;
 
-import com.github.martiandreamer.cp.PresentationService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
-
-import static com.github.martiandreamer.Constant.HALF_SIZE;
-import static com.github.martiandreamer.Utils.isClassFile;
-import static com.github.martiandreamer.Utils.parseInt;
 
 public class Main {
-    static void main(String[] args) {
-        final PresentationService presentationService = new PresentationService();
+    static void main(String[] args) throws InvalidClassFileFormatException, JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
         if (args.length < 1) {
             System.err.println("Usage: Main <program>\nEnter class file path to parse.");
             System.exit(1);
@@ -33,12 +29,7 @@ public class Main {
             System.exit(1);
             return;
         }
-        if (!isClassFile(content)) {
-            System.err.println("Given file is not a class file");
-            System.exit(1);
-            return;
-        }
-        final ClassInfo classInfo = new ClassInfo(className, parseInt(content, 6, HALF_SIZE), parseInt(content, 4, HALF_SIZE), List.of());
-        System.out.println(presentationService.present(classInfo));
+        Parser parser = new Parser(className, content);
+        System.out.println(objectMapper.writeValueAsString(parser.parse()));
     }
 }

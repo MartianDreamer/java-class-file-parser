@@ -3,7 +3,7 @@ package com.github.martiandreamer.cp;
 public class ConstantLongInfo extends ConstantInfo {
     protected final long value;
 
-    public ConstantLongInfo(ConstantInfo[] constantPool, long value) {
+    public ConstantLongInfo(ConstantPool constantPool, long value) {
         super(LONG, constantPool);
         this.value = value;
     }

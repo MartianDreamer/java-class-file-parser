@@ -1,8 +1,6 @@
 package com.github.martiandreamer;
 
-import com.github.martiandreamer.cp.ConstantInfo;
+import com.github.martiandreamer.cp.ConstantPool;
 
-import java.util.List;
-
-public record ClassInfo(String className, int major, int minor, List<ConstantInfo> constantPool) {
+public record ClassInfo(String className, int major, int minor, ConstantPool constantPool) {
 }

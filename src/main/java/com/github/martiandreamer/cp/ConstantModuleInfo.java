@@ -2,7 +2,7 @@ package com.github.martiandreamer.cp;
 
 public class ConstantModuleInfo extends ConstantUtf8ReferenceInfo {
 
-    protected ConstantModuleInfo(ConstantInfo[] constantPool, int index) {
+    protected ConstantModuleInfo(ConstantPool constantPool, int index) {
         super(MODULE, constantPool, index);
     }
 

@@ -1,7 +1,7 @@
 package com.github.martiandreamer.cp;
 
 public class ConstantPackageInfo extends ConstantUtf8ReferenceInfo {
-    protected ConstantPackageInfo(ConstantInfo[] constantPool, int index) {
+    protected ConstantPackageInfo(ConstantPool constantPool, int index) {
         super(PACKAGE, constantPool, index);
     }
 

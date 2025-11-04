@@ -3,7 +3,7 @@ package com.github.martiandreamer.cp;
 public class ConstantFloatInfo extends ConstantInfo {
     protected final float value;
 
-    public ConstantFloatInfo(ConstantInfo[] constantPool, float value) {
+    public ConstantFloatInfo(ConstantPool constantPool, float value) {
         super(FLOAT, constantPool);
         this.value = value;
     }

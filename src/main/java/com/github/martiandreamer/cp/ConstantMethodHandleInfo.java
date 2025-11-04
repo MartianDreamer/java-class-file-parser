@@ -2,9 +2,9 @@ package com.github.martiandreamer.cp;
 
 public class ConstantMethodHandleInfo extends ConstantInfo {
     protected final short referenceKind;
-    protected final short referenceIndex;
+    protected final int referenceIndex;
 
-    public ConstantMethodHandleInfo(ConstantInfo[] constantPool, short referenceKind, short referenceIndex) {
+    public ConstantMethodHandleInfo(ConstantPool constantPool, short referenceKind, int referenceIndex) {
         super(METHOD_HANDLE, constantPool);
         this.referenceKind = referenceKind;
         this.referenceIndex = referenceIndex;

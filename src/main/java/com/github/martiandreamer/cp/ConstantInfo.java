@@ -20,19 +20,15 @@ public abstract class ConstantInfo {
     public static final short PACKAGE = 20;
 
     protected final short tag;
-    protected final ConstantInfo[] constantPool;
+    protected final ConstantPool constantPool;
 
-    protected ConstantInfo(final short tag, final ConstantInfo[] constantPool) {
+    protected ConstantInfo(final short tag, final ConstantPool constantPool) {
         this.tag = tag;
         this.constantPool = constantPool;
     }
 
     public short getTag() {
         return tag;
-    }
-
-    public boolean isValid() {
-        return true;
     }
 
     public abstract String getName();

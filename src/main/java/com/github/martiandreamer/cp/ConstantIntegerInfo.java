@@ -3,8 +3,8 @@ package com.github.martiandreamer.cp;
 public class ConstantIntegerInfo extends ConstantInfo {
     protected final int value;
 
-    public ConstantIntegerInfo(ConstantPool constantPool, int value) {
-        super(INTEGER, constantPool);
+    public ConstantIntegerInfo(int value) {
+        super(INTEGER);
         this.value = value;
     }
 

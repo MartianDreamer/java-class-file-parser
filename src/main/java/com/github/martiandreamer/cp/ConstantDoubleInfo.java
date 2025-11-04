@@ -3,8 +3,8 @@ package com.github.martiandreamer.cp;
 public class ConstantDoubleInfo extends ConstantInfo {
     protected final double value;
 
-    public ConstantDoubleInfo(ConstantPool constantPool, double value) {
-        super(DOUBLE, constantPool);
+    public ConstantDoubleInfo(double value) {
+        super(DOUBLE);
         this.value = value;
     }
 
@@ -15,5 +15,10 @@ public class ConstantDoubleInfo extends ConstantInfo {
 
     public double getValue() {
         return value;
+    }
+
+    @Override
+    public int size() {
+        return 2;
     }
 }

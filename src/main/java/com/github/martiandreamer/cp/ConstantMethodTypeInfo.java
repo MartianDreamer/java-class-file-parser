@@ -1,6 +1,6 @@
 package com.github.martiandreamer.cp;
 
-public class ConstantMethodTypeInfo extends ConstantInfo {
+public class ConstantMethodTypeInfo extends ConstantReferenceInfo {
     protected final int descriptorIndex;
 
     public ConstantMethodTypeInfo(ConstantPool constantPool, int descriptorIndex) {

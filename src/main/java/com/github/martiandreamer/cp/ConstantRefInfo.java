@@ -1,6 +1,6 @@
 package com.github.martiandreamer.cp;
 
-public abstract class ConstantRefInfo extends ConstantInfo {
+public abstract class ConstantRefInfo extends ConstantReferenceInfo {
 
     protected final int classIndex;
     protected final int nameAndTypeIndex;

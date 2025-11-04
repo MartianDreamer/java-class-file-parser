@@ -1,6 +1,6 @@
 package com.github.martiandreamer.cp;
 
-public class ConstantMethodHandleInfo extends ConstantInfo {
+public class ConstantMethodHandleInfo extends ConstantReferenceInfo {
     protected final short referenceKind;
     protected final int referenceIndex;
 

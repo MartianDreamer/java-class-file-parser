@@ -1,6 +1,6 @@
 package com.github.martiandreamer.cp;
 
-public abstract class ConstantUtf8ReferenceInfo extends ConstantInfo {
+public abstract class ConstantUtf8ReferenceInfo extends ConstantReferenceInfo {
 
     protected final int index;
 

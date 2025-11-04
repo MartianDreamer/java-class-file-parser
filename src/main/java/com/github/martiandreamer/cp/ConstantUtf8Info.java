@@ -3,8 +3,8 @@ package com.github.martiandreamer.cp;
 public class ConstantUtf8Info extends ConstantInfo {
     protected String content;
 
-    public ConstantUtf8Info(ConstantPool constantPool, String content) {
-        super(UTF8, constantPool);
+    public ConstantUtf8Info(String content) {
+        super(UTF8);
         this.content = content;
     }
 

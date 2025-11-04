@@ -92,7 +92,7 @@ public class ConstantPoolParser {
         int length = parseInt(content, current, HALF_SIZE);
         try (DataInputStream dis = new DataInputStream(new ByteArrayInputStream(content, current, HALF_SIZE + length))) {
             String content = dis.readUTF();
-            return new ConstantUtf8Info(constantPool, content);
+            return new ConstantUtf8Info(content);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {
@@ -105,7 +105,7 @@ public class ConstantPoolParser {
                 .order(ByteOrder.BIG_ENDIAN)
                 .getInt();
         current += WORD_SIZE;
-        return new ConstantIntegerInfo(constantPool, content);
+        return new ConstantIntegerInfo(content);
     }
 
     private ConstantFloatInfo parseConstantFloatInfo() {
@@ -113,7 +113,7 @@ public class ConstantPoolParser {
                 .order(ByteOrder.BIG_ENDIAN)
                 .getFloat();
         current += WORD_SIZE;
-        return new ConstantFloatInfo(constantPool, content);
+        return new ConstantFloatInfo(content);
     }
 
     private ConstantLongInfo parseConstantLongInfo() {
@@ -121,7 +121,7 @@ public class ConstantPoolParser {
                 .order(ByteOrder.BIG_ENDIAN)
                 .getLong();
         current += DOUBLE_SIZE;
-        return new ConstantLongInfo(constantPool, content);
+        return new ConstantLongInfo(content);
     }
 
     private ConstantDoubleInfo parseConstantDoubleInfo() {
@@ -129,7 +129,7 @@ public class ConstantPoolParser {
                 .order(ByteOrder.BIG_ENDIAN)
                 .getDouble();
         current += DOUBLE_SIZE;
-        return new ConstantDoubleInfo(constantPool, content);
+        return new ConstantDoubleInfo(content);
     }
 
     private ConstantClassInfo parseConstantClassInfo() {

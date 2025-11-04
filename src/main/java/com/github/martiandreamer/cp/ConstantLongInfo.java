@@ -3,8 +3,8 @@ package com.github.martiandreamer.cp;
 public class ConstantLongInfo extends ConstantInfo {
     protected final long value;
 
-    public ConstantLongInfo(ConstantPool constantPool, long value) {
-        super(LONG, constantPool);
+    public ConstantLongInfo(long value) {
+        super(LONG);
         this.value = value;
     }
 
@@ -15,5 +15,10 @@ public class ConstantLongInfo extends ConstantInfo {
 
     public long getValue() {
         return value;
+    }
+
+    @Override
+    public int size() {
+        return 2;
     }
 }

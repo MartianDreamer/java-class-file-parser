@@ -1,6 +1,6 @@
 package com.github.martiandreamer.cp;
 
-public class ConstantDynamicInfo extends ConstantInfo {
+public class ConstantDynamicInfo extends ConstantReferenceInfo {
     protected final int bootstrapMethodAttributeIndex;
     protected final int nameAndTypeIndex;
 

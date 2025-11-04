@@ -1,27 +1,26 @@
 package com.github.martiandreamer.cp;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ConstantPool {
-    private final List<ConstantInfo> constantPool;
+    private final ConstantInfo[] constantPool;
 
     public ConstantPool(int size) {
-        constantPool = new ArrayList<>(size);
+        constantPool = new ConstantInfo[size];
     }
 
     public ConstantInfo get(int index) {
-        if (index - 1 >= constantPool.size()) {
+        if (index - 1 >= constantPool.length || index < 0) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + constantPool.length);
+        } else if (index == 0) {
             return null;
         }
-        return constantPool.get(index - 1);
+        return constantPool[index - 1];
     }
 
-    public void add(ConstantInfo constantInfo) {
-        constantPool.add(constantInfo);
+    public void put(ConstantInfo constantInfo, int index) {
+        constantPool[index] = constantInfo;
     }
 
-    public List<ConstantInfo> getConstantPool() {
+    public ConstantInfo[] getConstantPool() {
         return constantPool;
     }
 

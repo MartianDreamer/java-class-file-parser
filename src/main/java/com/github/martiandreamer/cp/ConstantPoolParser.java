@@ -53,12 +53,8 @@ public class ConstantPoolParser {
         this.constantPool = new ConstantPool(count);
         for (int i = 0; i < count;) {
             ConstantInfo constantInfo = parseConstantInfo();
-            constantPool.add(constantInfo);
-            if (constantInfo instanceof ConstantLongInfo || constantInfo instanceof  ConstantDoubleInfo) {
-                i += 2;
-            } else {
-                i += 1;
-            }
+            constantPool.put(constantInfo, i);
+            i += constantInfo.size();
         }
         return constantPool;
     }
@@ -224,5 +220,9 @@ public class ConstantPoolParser {
 
     public int getFrom() {
         return from;
+    }
+
+    public int getCurrent() {
+        return current;
     }
 }

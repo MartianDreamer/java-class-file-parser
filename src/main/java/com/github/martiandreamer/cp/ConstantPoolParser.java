@@ -36,7 +36,7 @@ public class ConstantPoolParser {
     private final byte[] content;
     private final int from;
     private int current;
-    private ConstantPool constantPool;
+    private ConstantInfo[] constantPool;
 
     public ConstantPoolParser(byte[] content, int from) {
         this.content = content;
@@ -44,16 +44,16 @@ public class ConstantPoolParser {
         this.current = from;
     }
 
-    public ConstantPool parse() throws InvalidClassFileFormatException {
+    public ConstantInfo[] parse() throws InvalidClassFileFormatException {
         if (constantPool != null) {
             return constantPool;
         }
-        int count = parseInt(content, current, HALF_SIZE) - 1;
+        int count = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
-        this.constantPool = new ConstantPool(count);
-        for (int i = 0; i < count;) {
+        this.constantPool = new ConstantInfo[count];
+        for (int i = 1; i < count;) {
             ConstantInfo constantInfo = parseConstantInfo();
-            constantPool.put(constantInfo, i);
+            constantPool[i] = constantInfo;
             i += constantInfo.size();
         }
         return constantPool;

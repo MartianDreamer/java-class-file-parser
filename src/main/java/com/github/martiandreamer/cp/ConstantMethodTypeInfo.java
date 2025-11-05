@@ -3,7 +3,7 @@ package com.github.martiandreamer.cp;
 public class ConstantMethodTypeInfo extends ConstantReferenceInfo {
     protected final int descriptorIndex;
 
-    public ConstantMethodTypeInfo(ConstantPool constantPool, int descriptorIndex) {
+    public ConstantMethodTypeInfo(ConstantInfo[] constantPool, int descriptorIndex) {
         super(METHOD_TYPE, constantPool);
         this.descriptorIndex = descriptorIndex;
     }

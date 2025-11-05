@@ -2,8 +2,8 @@ package com.github.martiandreamer;
 
 import com.github.martiandreamer.cp.ConstantClassInfo;
 import com.github.martiandreamer.cp.ConstantInfo;
-import com.github.martiandreamer.cp.ConstantPool;
 import com.github.martiandreamer.cp.ConstantPoolParser;
+import com.github.martiandreamer.cp.ConstantRef;
 
 import java.util.Arrays;
 import java.util.List;
@@ -37,7 +37,7 @@ public class Parser {
         int major = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
         ConstantPoolParser constantPoolParser = new ConstantPoolParser(content, current);
-        ConstantPool constantPool = constantPoolParser.parse();
+        ConstantInfo[] constantPool = constantPoolParser.parse();
         current = constantPoolParser.getCurrent();
         int accessFlagsValue = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
@@ -46,15 +46,7 @@ public class Parser {
         current += HALF_SIZE;
         int superClassId = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
-        ConstantInfo thisClass = constantPool.get(thisClassId);
-        if (!(thisClass instanceof ConstantClassInfo tc)) {
-            throw new InvalidClassFileFormatException("this_class " + thisClassId + " is not a CONSTANT_Class_Info. " + thisClass);
-        }
-        ConstantInfo superClass = constantPool.get(superClassId);
-        if (superClass != null && !(superClass instanceof ConstantClassInfo)) {
-            throw new InvalidClassFileFormatException("super_class " + superClassId + " is not a CONSTANT_Class_Info. " + superClass);
-        }
-        this.result = new ClassInfo(className, major, minor, constantPool, accessFlags, tc, (ConstantClassInfo) superClass);
+        this.result = new ClassInfo(className, major, minor, constantPool, accessFlags, new ConstantRef<>(thisClassId, constantPool, ConstantClassInfo.class), new ConstantRef<>(superClassId, constantPool, ConstantClassInfo.class));
         return result;
     }
 

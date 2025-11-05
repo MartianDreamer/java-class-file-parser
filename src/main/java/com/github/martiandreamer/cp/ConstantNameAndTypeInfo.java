@@ -4,7 +4,7 @@ public class ConstantNameAndTypeInfo extends ConstantReferenceInfo {
     protected final int nameIndex;
     protected final int descriptorIndex;
 
-    public ConstantNameAndTypeInfo(ConstantPool constantPool, int nameIndex, int descriptorIndex) {
+    public ConstantNameAndTypeInfo(ConstantInfo[] constantPool, int nameIndex, int descriptorIndex) {
         super(NAME_AND_TYPE, constantPool);
         this.nameIndex = nameIndex;
         this.descriptorIndex = descriptorIndex;

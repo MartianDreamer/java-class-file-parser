@@ -2,7 +2,7 @@ package com.github.martiandreamer.cp;
 
 public class ConstantClassInfo extends ConstantUtf8ReferenceInfo {
 
-    public ConstantClassInfo(ConstantPool constantPool, int index) {
+    public ConstantClassInfo(ConstantInfo[] constantPool, int index) {
         super(CLASS, constantPool, index);
     }
 

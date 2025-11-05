@@ -2,7 +2,7 @@ package com.github.martiandreamer.cp;
 
 public class ConstantFieldRefInfo extends ConstantRefInfo {
 
-    public ConstantFieldRefInfo(ConstantPool constantPool, int classIndex, int nameAndTypeIndex) {
+    public ConstantFieldRefInfo(ConstantInfo[] constantPool, int classIndex, int nameAndTypeIndex) {
         super(FIELD_REF, constantPool, classIndex, nameAndTypeIndex);
     }
 

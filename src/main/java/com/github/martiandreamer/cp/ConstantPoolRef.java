@@ -22,12 +22,18 @@ public class ConstantPoolRef implements ConstantInfo {
         return constantPool[index].getTag();
     }
 
-    public String getName() {
-        return constantPool[index].getName();
+    @Override
+    public String getConstantType() {
+        return constantPool[index].getConstantType();
     }
 
     @Override
     public int size() {
         return constantPool[index].size();
+    }
+
+    @Override
+    public String toString() {
+        return constantPool[index].toString();
     }
 }

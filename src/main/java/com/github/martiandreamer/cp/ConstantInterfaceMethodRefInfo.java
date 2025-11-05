@@ -12,7 +12,8 @@ public class ConstantInterfaceMethodRefInfo extends ConstantRefInfo {
     }
 
     @Override
-    public String getName() {
+    public String getConstantType() {
         return "CONSTANT_InterfaceMethodref_info";
     }
+
 }

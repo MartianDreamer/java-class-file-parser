@@ -20,7 +20,7 @@ public interface ConstantInfo {
     short PACKAGE = 20;
 
     short getTag();
-    String getName();
+    String getConstantType();
 
     default int size() {
         return 1;

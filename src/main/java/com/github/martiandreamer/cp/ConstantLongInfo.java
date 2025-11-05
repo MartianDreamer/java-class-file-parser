@@ -13,7 +13,7 @@ public class ConstantLongInfo implements ConstantValueInfo<Long> {
     }
 
     @Override
-    public String getName() {
+    public String getConstantType() {
         return "CONSTANT_Long_info";
     }
 

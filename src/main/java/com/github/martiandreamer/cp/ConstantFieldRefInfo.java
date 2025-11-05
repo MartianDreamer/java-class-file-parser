@@ -12,7 +12,7 @@ public class ConstantFieldRefInfo extends ConstantRefInfo {
     }
 
     @Override
-    public String getName() {
+    public String getConstantType() {
         return "CONSTANT_Fieldref_info";
     }
 }

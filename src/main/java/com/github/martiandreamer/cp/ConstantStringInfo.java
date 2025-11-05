@@ -1,12 +1,12 @@
 package com.github.martiandreamer.cp;
 
-public class ConstantStringInfo implements ConstantValueInfo<String> {
-    private final ConstantInfo[] constantPool;
-    private final int index;
+import com.github.martiandreamer.InvalidClassFileFormatRuntimeException;
 
-    public ConstantStringInfo(ConstantInfo[] constantPool, int index) {
-        this.constantPool = constantPool;
-        this.index = index;
+public class ConstantStringInfo implements ConstantValueInfo<String> {
+    private final ConstantPoolRef string;
+
+    public ConstantStringInfo(ConstantInfo[] constantPool, int stringIndex) {
+        this.string = new ConstantPoolRef(stringIndex, constantPool);
     }
 
     @Override
@@ -15,15 +15,15 @@ public class ConstantStringInfo implements ConstantValueInfo<String> {
     }
 
     @Override
-    public String getName() {
+    public String getConstantType() {
         return "CONSTANT_String_info";
     }
 
     @Override
     public String getValue() {
-        if (constantPool[index] instanceof ConstantUtf8Info cu8i) {
+        if (string.getContent() instanceof ConstantUtf8Info cu8i) {
             return cu8i.getContent();
         }
-        return null;
+        throw new InvalidClassFileFormatRuntimeException("Invalid constant pool entry " + string);
     }
 }

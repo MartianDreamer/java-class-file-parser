@@ -7,7 +7,7 @@ public class ConstantInvokeDynamicInfo extends ConstantDynamicInfo {
     }
 
     @Override
-    public String getName() {
+    public String getConstantType() {
         return "CONSTANT_InvokeDynamic_info";
     }
 

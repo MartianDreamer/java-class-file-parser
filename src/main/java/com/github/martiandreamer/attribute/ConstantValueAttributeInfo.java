@@ -16,7 +16,12 @@ public class ConstantValueAttributeInfo extends AttributeInfo {
     }
 
 
-    public Object getValue() {
-        return ((ConstantValueInfo<?>)value.getContent()).getValue();
+    @SuppressWarnings("unchecked")
+    public <T> T getValue() {
+        return ((ConstantValueInfo<T>)value.getContent()).getValue();
+    }
+
+    public <T> T getValue(Class<T> clazz) {
+        return clazz.cast(getValue());
     }
 }

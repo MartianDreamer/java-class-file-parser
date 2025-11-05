@@ -13,7 +13,7 @@ public class ConstantFloatInfo implements ConstantValueInfo<Float> {
     }
 
     @Override
-    public String getName() {
+    public String getConstantType() {
         return "CONSTANT_Float_info";
     }
 

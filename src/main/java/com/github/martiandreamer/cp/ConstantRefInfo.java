@@ -1,21 +1,20 @@
 package com.github.martiandreamer.cp;
 
-public abstract class ConstantRefInfo extends ConstantReferenceInfo {
+public abstract class ConstantRefInfo implements ConstantInfo {
 
-    protected final int classIndex;
-    protected final int nameAndTypeIndex;
+    protected final ConstantPoolRef clazz;
+    protected final ConstantPoolRef nameAndType;
 
     protected ConstantRefInfo(ConstantInfo[] constantPool, int classIndex, int nameAndTypeIndex) {
-        super(constantPool);
-        this.classIndex = classIndex;
-        this.nameAndTypeIndex = nameAndTypeIndex;
+        this.clazz = new ConstantPoolRef(classIndex, constantPool);
+        this.nameAndType = new ConstantPoolRef(nameAndTypeIndex, constantPool);
     }
 
-    public int getClassIndex() {
-        return classIndex;
+    public ConstantPoolRef getClazz() {
+        return clazz;
     }
 
-    public int getNameAndTypeIndex() {
-        return nameAndTypeIndex;
+    public ConstantPoolRef getNameAndType() {
+        return nameAndType;
     }
 }

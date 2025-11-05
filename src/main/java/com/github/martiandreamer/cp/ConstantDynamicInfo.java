@@ -1,13 +1,12 @@
 package com.github.martiandreamer.cp;
 
-public class ConstantDynamicInfo extends ConstantReferenceInfo {
+public class ConstantDynamicInfo implements ConstantInfo {
     protected final int bootstrapMethodAttributeIndex;
-    protected final int nameAndTypeIndex;
+    protected final ConstantPoolRef nameAndType;
 
     public ConstantDynamicInfo(ConstantInfo[] constantPool, int bootstrapMethodAttributeIndex, int nameAndTypeIndex) {
-        super(constantPool);
         this.bootstrapMethodAttributeIndex = bootstrapMethodAttributeIndex;
-        this.nameAndTypeIndex = nameAndTypeIndex;
+        this.nameAndType = new ConstantPoolRef(nameAndTypeIndex, constantPool);
     }
 
     @Override
@@ -16,7 +15,7 @@ public class ConstantDynamicInfo extends ConstantReferenceInfo {
     }
 
     @Override
-    public String getName() {
+    public String getConstantType() {
         return "CONSTANT_Dynamic_info";
     }
 
@@ -24,7 +23,7 @@ public class ConstantDynamicInfo extends ConstantReferenceInfo {
         return bootstrapMethodAttributeIndex;
     }
 
-    public int getNameAndTypeIndex() {
-        return nameAndTypeIndex;
+    public ConstantPoolRef getNameAndType() {
+        return nameAndType;
     }
 }

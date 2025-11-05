@@ -1,13 +1,12 @@
 package com.github.martiandreamer.cp;
 
-public class ConstantMethodHandleInfo extends ConstantReferenceInfo {
+public class ConstantMethodHandleInfo implements ConstantInfo {
     protected final short referenceKind;
-    protected final int referenceIndex;
+    protected final ConstantPoolRef reference;
 
     public ConstantMethodHandleInfo(ConstantInfo[] constantPool, short referenceKind, int referenceIndex) {
-        super(constantPool);
         this.referenceKind = referenceKind;
-        this.referenceIndex = referenceIndex;
+        this.reference = new ConstantPoolRef(referenceIndex, constantPool);
     }
 
     @Override
@@ -16,7 +15,7 @@ public class ConstantMethodHandleInfo extends ConstantReferenceInfo {
     }
 
     @Override
-    public String getName() {
+    public String getConstantType() {
         return "CONSTANT_MethodHandle_info";
     }
 }

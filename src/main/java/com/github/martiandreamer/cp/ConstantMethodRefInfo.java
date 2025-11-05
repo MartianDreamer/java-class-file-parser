@@ -11,7 +11,7 @@ public class ConstantMethodRefInfo extends ConstantRefInfo {
     }
 
     @Override
-    public String getName() {
+    public String getConstantType() {
         return "CONSTANT_Methodref_info";
     }
 }

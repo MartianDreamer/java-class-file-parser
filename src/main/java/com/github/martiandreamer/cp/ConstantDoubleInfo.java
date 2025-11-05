@@ -13,7 +13,7 @@ public class ConstantDoubleInfo implements ConstantValueInfo<Double> {
     }
 
     @Override
-    public String getName() {
+    public String getConstantType() {
         return "CONSTANT_Double_info";
     }
 

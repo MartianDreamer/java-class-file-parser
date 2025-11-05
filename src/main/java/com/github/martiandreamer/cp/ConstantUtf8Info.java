@@ -13,7 +13,7 @@ public class ConstantUtf8Info implements ConstantInfo {
     }
 
     @Override
-    public String getName() {
+    public String getConstantType() {
         return "CONSTANT_Utf8_info";
     }
 

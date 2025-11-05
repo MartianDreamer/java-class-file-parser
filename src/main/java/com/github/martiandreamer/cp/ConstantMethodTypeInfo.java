@@ -1,11 +1,10 @@
 package com.github.martiandreamer.cp;
 
-public class ConstantMethodTypeInfo extends ConstantReferenceInfo {
-    protected final int descriptorIndex;
+public class ConstantMethodTypeInfo implements ConstantInfo {
+    protected final ConstantPoolRef descriptor;
 
     public ConstantMethodTypeInfo(ConstantInfo[] constantPool, int descriptorIndex) {
-        super(constantPool);
-        this.descriptorIndex = descriptorIndex;
+        this.descriptor = new ConstantPoolRef(descriptorIndex, constantPool);
     }
 
     @Override
@@ -14,7 +13,7 @@ public class ConstantMethodTypeInfo extends ConstantReferenceInfo {
     }
 
     @Override
-    public String getName() {
+    public String getConstantType() {
         return "CONSTANT_MethodType_info";
     }
 }

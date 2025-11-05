@@ -13,7 +13,7 @@ public class ConstantIntegerInfo implements ConstantValueInfo<Integer> {
     }
 
     @Override
-    public String getName() {
+    public String getConstantType() {
         return "CONSTANT_Integer_info";
     }
 

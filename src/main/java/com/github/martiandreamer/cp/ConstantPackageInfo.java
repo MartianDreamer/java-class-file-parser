@@ -1,8 +1,15 @@
 package com.github.martiandreamer.cp;
 
-public class ConstantPackageInfo extends ConstantUtf8ReferenceInfo {
-    protected ConstantPackageInfo(ConstantInfo[] constantPool, int index) {
-        super(constantPool, index);
+public class ConstantPackageInfo implements ConstantInfo {
+
+    private final ConstantPoolRef name;
+
+    protected ConstantPackageInfo(ConstantInfo[] constantPool, int nameIndex) {
+        this.name = new ConstantPoolRef(nameIndex, constantPool);
+    }
+
+    public ConstantPoolRef getName() {
+        return name;
     }
 
     @Override
@@ -11,7 +18,7 @@ public class ConstantPackageInfo extends ConstantUtf8ReferenceInfo {
     }
 
     @Override
-    public String getName() {
+    public String getConstantType() {
         return "CONSTANT_Package_info";
     }
 }

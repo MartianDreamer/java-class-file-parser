@@ -1,13 +1,12 @@
 package com.github.martiandreamer.cp;
 
-public class ConstantNameAndTypeInfo extends ConstantReferenceInfo {
-    protected final int nameIndex;
-    protected final int descriptorIndex;
+public class ConstantNameAndTypeInfo implements ConstantInfo {
+    protected final ConstantPoolRef name;
+    protected final ConstantPoolRef descriptor;
 
     public ConstantNameAndTypeInfo(ConstantInfo[] constantPool, int nameIndex, int descriptorIndex) {
-        super(constantPool);
-        this.nameIndex = nameIndex;
-        this.descriptorIndex = descriptorIndex;
+        this.name = new ConstantPoolRef(nameIndex, constantPool);
+        this.descriptor = new ConstantPoolRef(descriptorIndex, constantPool);
     }
 
     @Override
@@ -16,15 +15,15 @@ public class ConstantNameAndTypeInfo extends ConstantReferenceInfo {
     }
 
     @Override
-    public String getName() {
+    public String getConstantType() {
         return "CONSTANT_NameAndType_info";
     }
 
-    public int getNameIndex() {
-        return nameIndex;
+    public ConstantPoolRef getName() {
+        return name;
     }
 
-    public int getDescriptorIndex() {
-        return descriptorIndex;
+    public ConstantPoolRef getDescriptor() {
+        return descriptor;
     }
 }

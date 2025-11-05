@@ -1,6 +1,7 @@
 package com.github.martiandreamer.cp;
 
 import com.github.martiandreamer.InvalidClassFileFormatException;
+import com.github.martiandreamer.Parser;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -32,16 +33,11 @@ import static com.github.martiandreamer.cp.ConstantInfo.PACKAGE;
 import static com.github.martiandreamer.cp.ConstantInfo.STRING;
 import static com.github.martiandreamer.cp.ConstantInfo.UTF8;
 
-public class ConstantPoolParser {
-    private final byte[] content;
-    private final int from;
-    private int current;
+public class ConstantPoolParser extends Parser<ConstantInfo[]> {
     private ConstantInfo[] constantPool;
 
     public ConstantPoolParser(byte[] content, int from) {
-        this.content = content;
-        this.from = from;
-        this.current = from;
+        super(content, from);
     }
 
     public ConstantInfo[] parse() throws InvalidClassFileFormatException {

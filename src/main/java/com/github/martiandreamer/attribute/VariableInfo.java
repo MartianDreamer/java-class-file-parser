@@ -1,8 +1,5 @@
 package com.github.martiandreamer.attribute;
 
-import com.github.martiandreamer.cp.ConstantClassInfo;
-import com.github.martiandreamer.cp.ConstantRef;
-
 public class VariableInfo {
     private static final String[] names = new String[]{
             "Top_variable_info",
@@ -26,24 +23,12 @@ public class VariableInfo {
     public static final short ITEM_Uninitialized = 8;
 
     private final short tag;
-    private final int offset;
-    private final ConstantRef<ConstantClassInfo> cpoolIndex;
 
-    public VariableInfo(short tag, int offset, ConstantRef<ConstantClassInfo> cpoolIndex) {
+    public VariableInfo(short tag) {
         this.tag = tag;
-        this.offset = offset;
-        this.cpoolIndex = cpoolIndex;
     }
 
     public String getName(){
         return names[tag];
-    }
-
-    public int getOffset(){
-        return offset;
-    }
-
-    public ConstantRef<ConstantClassInfo> getCpoolIndex(){
-        return cpoolIndex;
     }
 }

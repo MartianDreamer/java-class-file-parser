@@ -10,11 +10,11 @@ public abstract class AttributeInfo {
         this.attributeName = attributeName;
     }
 
-    public AttributeType getType() {
-        return AttributeType.valueOf(attributeName.getContent().getContent());
+    public PredefinedAttributeType getType() {
+        return PredefinedAttributeType.valueOf(attributeName.getContent().getContent());
     }
 
-    public enum AttributeType {
-        ConstantValue, Code, StackMapTable
+    public enum PredefinedAttributeType {
+        Undefined, ConstantValue, Code, StackMapTable
     }
 }

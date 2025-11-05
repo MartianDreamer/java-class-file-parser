@@ -22,4 +22,12 @@ public final class Utils {
                 .order(ByteOrder.BIG_ENDIAN)
                 .getShort();
     }
+
+    public static long parseLong(byte[] content, int offset, int length) {
+        byte[] buffer = new byte[8];
+        System.arraycopy(content, offset, buffer, buffer.length - length, length);
+        return ByteBuffer.wrap(buffer)
+                .order(ByteOrder.BIG_ENDIAN)
+                .getLong();
+    }
 }

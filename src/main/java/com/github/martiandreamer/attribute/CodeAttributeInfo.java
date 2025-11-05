@@ -8,14 +8,18 @@ public class CodeAttributeInfo extends AttributeInfo {
     private final int maxStack;
     private final int maxLocals;
     private final byte[] code;
+    private final long offset;
+    private final long codeLength;
     private final ExceptionTableEntry[] exceptionTable;
     private final AttributeInfo[] attributes;
 
-    protected CodeAttributeInfo(ConstantRef<ConstantUtf8Info> attributeName, int maxStack, int maxLocals, byte[] code, ExceptionTableEntry[] exceptionTable, AttributeInfo[] attributes) {
+    protected CodeAttributeInfo(ConstantRef<ConstantUtf8Info> attributeName, int maxStack, int maxLocals, byte[] code, long offset, long codeLength, ExceptionTableEntry[] exceptionTable, AttributeInfo[] attributes) {
         super(attributeName);
         this.maxStack = maxStack;
         this.maxLocals = maxLocals;
         this.code = code;
+        this.offset = offset;
+        this.codeLength = codeLength;
         this.exceptionTable = exceptionTable;
         this.attributes = attributes;
     }
@@ -38,6 +42,14 @@ public class CodeAttributeInfo extends AttributeInfo {
 
     public int getMaxStack() {
         return maxStack;
+    }
+
+    public long getOffset() {
+        return offset;
+    }
+
+    public long getCodeLength() {
+        return codeLength;
     }
 
     public static class ExceptionTableEntry {

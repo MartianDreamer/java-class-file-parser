@@ -24,7 +24,7 @@ public enum AccessFlag {
         VALUE = value;
     }
 
-    public static List<AccessFlag> getFlags(int value) {
+    public static AccessFlag[] getFlags(int value) {
         AccessFlag[] accessFlags = values();
         List<AccessFlag> flags = new ArrayList<>(accessFlags.length);
         for (AccessFlag flag : accessFlags) {
@@ -32,6 +32,6 @@ public enum AccessFlag {
                 flags.add(flag);
             }
         }
-        return flags;
+        return flags.toArray(new AccessFlag[]{});
     }
 }

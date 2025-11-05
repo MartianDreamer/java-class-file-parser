@@ -36,42 +36,44 @@ public class AttributeParser extends Parser<AttributeInfo[]> {
     public AttributeInfo parseAttributeInfo() throws InvalidClassFileFormatException {
         int index = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
-        ConstantRef<ConstantUtf8Info> constantRef = new ConstantRef<>(index, constantPool, ConstantUtf8Info.class);
+        ConstantPoolRef attributeName = new ConstantPoolRef(index, constantPool);
         PredefinedAttributeType type;
+        if (attributeName.getTag() != ConstantInfo.UTF8) {
+            throw new InvalidClassFileFormatException("UTF8 constant pool reference not supported " + attributeName);
+        }
         try {
-            type = PredefinedAttributeType.valueOf(constantRef.getContent().getContent());
+            type = PredefinedAttributeType.valueOf(((ConstantUtf8Info) attributeName.getContent()).getContent());
         } catch (IllegalArgumentException _) {
             type = PredefinedAttributeType.Undefined;
         }
         return switch (type) {
-            case ConstantValue -> parseConstantValueAttributeInfo(constantRef);
-            case Code -> parseCodeAttributeInfo(constantRef);
+            case ConstantValue -> parseConstantValueAttributeInfo(attributeName);
+            case Code -> parseCodeAttributeInfo(attributeName);
             case StackMapTable -> {
-                Parser<StackMapTableAttributeInfo> parser = new StackMapTableParser(content, current, constantRef, constantPool);
+                Parser<StackMapTableAttributeInfo> parser = new StackMapTableParser(content, current, attributeName, constantPool);
                 StackMapTableAttributeInfo stackMapTableAttributeInfo = parser.parse();
                 current = parser.getCurrent();
                 yield stackMapTableAttributeInfo;
             }
-            case Undefined -> parseUndefinedAttributeInfo(constantRef);
+            case Undefined -> parseUndefinedAttributeInfo(attributeName);
         };
     }
 
-    @SuppressWarnings("rawtypes")
-    private ConstantValueAttributeInfo parseConstantValueAttributeInfo(ConstantRef<ConstantUtf8Info> constantRef) throws InvalidClassFileFormatException {
+    private ConstantValueAttributeInfo parseConstantValueAttributeInfo(ConstantPoolRef constantPoolRef) throws InvalidClassFileFormatException {
         current += WORD_SIZE;
         int index = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
-        ConstantRef<ConstantValueInfo> valueRef = new ConstantRef<>(index, constantPool, ConstantValueInfo.class);
-        return new ConstantValueAttributeInfo(constantRef, valueRef);
+        ConstantPoolRef valueRef = new ConstantPoolRef(index, constantPool);
+        return new ConstantValueAttributeInfo(constantPoolRef, valueRef);
     }
 
-    private UndefinedAttributeInfo parseUndefinedAttributeInfo(ConstantRef<ConstantUtf8Info> constantRef) throws InvalidClassFileFormatException {
+    private UndefinedAttributeInfo parseUndefinedAttributeInfo(ConstantPoolRef constantPoolRef) throws InvalidClassFileFormatException {
         long length = parseLength();
         current += (int) length;
-        return new UndefinedAttributeInfo(constantRef, content, current, length);
+        return new UndefinedAttributeInfo(constantPoolRef, content, current, length);
     }
 
-    private CodeAttributeInfo parseCodeAttributeInfo(ConstantRef<ConstantUtf8Info> constantRef) throws InvalidClassFileFormatException {
+    private CodeAttributeInfo parseCodeAttributeInfo(ConstantPoolRef constantPoolRef) throws InvalidClassFileFormatException {
         current += WORD_SIZE;
         int maxStack = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
@@ -84,10 +86,10 @@ public class AttributeParser extends Parser<AttributeInfo[]> {
         AttributeParser attributeParser = new AttributeParser(content, current, constantPool);
         AttributeInfo[] attributes = attributeParser.parse();
         current = attributeParser.current;
-        return new CodeAttributeInfo(constantRef, maxStack, maxLocals, content, offset, codeLength, exceptionTable, attributes);
+        return new CodeAttributeInfo(constantPoolRef, maxStack, maxLocals, content, offset, codeLength, exceptionTable, attributes);
     }
 
-    private CodeAttributeInfo.ExceptionTableEntry[] parseExceptionTable() {
+    private CodeAttributeInfo.ExceptionTableEntry[] parseExceptionTable() throws InvalidClassFileFormatException {
         int exceptionTableLength = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
         CodeAttributeInfo.ExceptionTableEntry[] exceptionTable = new CodeAttributeInfo.ExceptionTableEntry[exceptionTableLength];
@@ -97,7 +99,7 @@ public class AttributeParser extends Parser<AttributeInfo[]> {
         return exceptionTable;
     }
 
-    private CodeAttributeInfo.ExceptionTableEntry parseExceptionTableEntry() {
+    private CodeAttributeInfo.ExceptionTableEntry parseExceptionTableEntry() throws InvalidClassFileFormatException {
         int startPc = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
         int endPc = parseInt(content, current, HALF_SIZE);
@@ -106,7 +108,7 @@ public class AttributeParser extends Parser<AttributeInfo[]> {
         current += HALF_SIZE;
         int catchTypeIndex =  parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
-        ConstantRef<ConstantClassInfo> catchType = new ConstantRef<>(catchTypeIndex, constantPool, ConstantClassInfo.class);
+        ConstantPoolRef catchType = new ConstantPoolRef(catchTypeIndex, constantPool);
         return new CodeAttributeInfo.ExceptionTableEntry(startPc, endPc, handlerPc, catchType);
     }
 

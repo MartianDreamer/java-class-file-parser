@@ -1,13 +1,13 @@
 package com.github.martiandreamer.attribute;
 
-import com.github.martiandreamer.cp.ConstantRef;
-import com.github.martiandreamer.cp.ConstantUtf8Info;
+import com.github.martiandreamer.InvalidClassFileFormatException;
+import com.github.martiandreamer.cp.ConstantPoolRef;
 
 public class StackMapTableAttributeInfo extends AttributeInfo {
 
     private final StackMapFrame[] entries;
 
-    protected StackMapTableAttributeInfo(ConstantRef<ConstantUtf8Info> attributeName, StackMapFrame[] entries) {
+    protected StackMapTableAttributeInfo(ConstantPoolRef attributeName, StackMapFrame[] entries) throws InvalidClassFileFormatException {
         super(attributeName);
         this.entries = entries;
     }

@@ -2,10 +2,8 @@ package com.github.martiandreamer.attribute;
 
 import com.github.martiandreamer.InvalidClassFileFormatException;
 import com.github.martiandreamer.Parser;
-import com.github.martiandreamer.cp.ConstantClassInfo;
 import com.github.martiandreamer.cp.ConstantInfo;
-import com.github.martiandreamer.cp.ConstantRef;
-import com.github.martiandreamer.cp.ConstantUtf8Info;
+import com.github.martiandreamer.cp.ConstantPoolRef;
 
 import static com.github.martiandreamer.Constant.*;
 import static com.github.martiandreamer.Utils.parseInt;
@@ -13,10 +11,10 @@ import static com.github.martiandreamer.Utils.parseShort;
 
 public class StackMapTableParser extends Parser<StackMapTableAttributeInfo> {
     private final ConstantInfo[] constantPool;
-    private final ConstantRef<ConstantUtf8Info> attributeName;
+    private final ConstantPoolRef attributeName;
     private StackMapTableAttributeInfo result;
 
-    protected StackMapTableParser(byte[] content, int from, ConstantRef<ConstantUtf8Info> attributeName, ConstantInfo[] constantPool) {
+    protected StackMapTableParser(byte[] content, int from, ConstantPoolRef attributeName, ConstantInfo[] constantPool) {
         super(content, from);
         this.constantPool = constantPool;
         this.attributeName = attributeName;
@@ -95,7 +93,7 @@ public class StackMapTableParser extends Parser<StackMapTableAttributeInfo> {
         } else if (tag == 7) {
             int index = parseInt(content, current, HALF_SIZE);
             current += HALF_SIZE;
-            return new ObjectVariableInfo(new ConstantRef<>(index, constantPool, ConstantClassInfo.class));
+            return new ObjectVariableInfo(new ConstantPoolRef(index, constantPool));
         } else if (tag == 8) {
             int offset = parseInt(content, current, HALF_SIZE);
             current += HALF_SIZE;

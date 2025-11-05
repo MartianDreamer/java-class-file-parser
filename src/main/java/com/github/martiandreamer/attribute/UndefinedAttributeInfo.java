@@ -1,7 +1,7 @@
 package com.github.martiandreamer.attribute;
 
-import com.github.martiandreamer.cp.ConstantRef;
-import com.github.martiandreamer.cp.ConstantUtf8Info;
+import com.github.martiandreamer.InvalidClassFileFormatException;
+import com.github.martiandreamer.cp.ConstantPoolRef;
 
 public class UndefinedAttributeInfo extends AttributeInfo {
 
@@ -9,7 +9,7 @@ public class UndefinedAttributeInfo extends AttributeInfo {
     private final long from;
     private final long length;
 
-    protected UndefinedAttributeInfo(ConstantRef<ConstantUtf8Info> attributeName, byte[] content, long from, long length) {
+    protected UndefinedAttributeInfo(ConstantPoolRef attributeName, byte[] content, long from, long length) throws InvalidClassFileFormatException {
         super(attributeName);
         this.content = content;
         this.from = from;

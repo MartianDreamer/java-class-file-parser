@@ -1,8 +1,8 @@
 package com.github.martiandreamer.attribute;
 
-import com.github.martiandreamer.cp.ConstantClassInfo;
-import com.github.martiandreamer.cp.ConstantRef;
-import com.github.martiandreamer.cp.ConstantUtf8Info;
+import com.github.martiandreamer.InvalidClassFileFormatException;
+import com.github.martiandreamer.cp.ConstantInfo;
+import com.github.martiandreamer.cp.ConstantPoolRef;
 
 public class CodeAttributeInfo extends AttributeInfo {
     private final int maxStack;
@@ -13,7 +13,7 @@ public class CodeAttributeInfo extends AttributeInfo {
     private final ExceptionTableEntry[] exceptionTable;
     private final AttributeInfo[] attributes;
 
-    protected CodeAttributeInfo(ConstantRef<ConstantUtf8Info> attributeName, int maxStack, int maxLocals, byte[] code, long offset, long codeLength, ExceptionTableEntry[] exceptionTable, AttributeInfo[] attributes) {
+    protected CodeAttributeInfo(ConstantPoolRef attributeName, int maxStack, int maxLocals, byte[] code, long offset, long codeLength, ExceptionTableEntry[] exceptionTable, AttributeInfo[] attributes) throws InvalidClassFileFormatException {
         super(attributeName);
         this.maxStack = maxStack;
         this.maxLocals = maxLocals;
@@ -30,10 +30,6 @@ public class CodeAttributeInfo extends AttributeInfo {
 
     public ExceptionTableEntry[] getExceptionTable() {
         return exceptionTable;
-    }
-
-    public byte[] getCode() {
-        return code;
     }
 
     public int getMaxLocals() {
@@ -56,9 +52,12 @@ public class CodeAttributeInfo extends AttributeInfo {
         private final int startPc;
         private final int endPc;
         private final int handlerPc;
-        private final ConstantRef<ConstantClassInfo> catchType;
+        private final ConstantPoolRef catchType;
 
-        public ExceptionTableEntry(int startPc, int endPc, int handlerPc, ConstantRef<ConstantClassInfo> catchType) {
+        public ExceptionTableEntry(int startPc, int endPc, int handlerPc, ConstantPoolRef catchType) throws InvalidClassFileFormatException {
+            if (catchType.getTag() != ConstantInfo.CLASS) {
+                throw new InvalidClassFileFormatException("Invalid catch type " + catchType);
+            }
             this.startPc = startPc;
             this.endPc = endPc;
             this.handlerPc = handlerPc;
@@ -77,7 +76,7 @@ public class CodeAttributeInfo extends AttributeInfo {
             return handlerPc;
         }
 
-        public ConstantRef<ConstantClassInfo> getCatchType() {
+        public ConstantPoolRef getCatchType() {
             return catchType;
         }
     }

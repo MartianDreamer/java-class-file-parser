@@ -1,8 +1,8 @@
 package com.github.martiandreamer;
 
-import com.github.martiandreamer.cp.ConstantInfo;
-import com.github.martiandreamer.cp.ConstantPoolParser;
-import com.github.martiandreamer.cp.ConstantPoolRef;
+import com.github.martiandreamer.attribute.AttributeInfo;
+import com.github.martiandreamer.attribute.AttributeParser;
+import com.github.martiandreamer.cp.*;
 
 import java.util.Arrays;
 
@@ -12,12 +12,10 @@ import static com.github.martiandreamer.Utils.parseInt;
 public class ClassFileParser extends Parser<ClassInfo> {
     private static final byte[] MAGIC_NUMBER = {(byte) 0xCA, (byte) 0xFE, (byte) 0xBA, (byte) 0xBE};
 
-    private final String className;
     private ClassInfo result;
 
-    public ClassFileParser(String className, byte[] content) {
+    public ClassFileParser(byte[] content) {
         super(content, MAGIC_NUMBER.length);
-        this.className = className;
         if (!isClassFile()) {
             throw new InvalidClassFileFormatException("Not starting with magic numbers");
         }
@@ -28,10 +26,13 @@ public class ClassFileParser extends Parser<ClassInfo> {
         if (this.result != null) {
             return this.result;
         }
+        // parse version
         int minor = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
         int major = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
+
+        // parse constant pool
         ConstantPoolParser constantPoolParser = new ConstantPoolParser(content, current);
         ConstantInfo[] constantPool = constantPoolParser.parse();
         current = constantPoolParser.getCurrent();
@@ -66,7 +67,14 @@ public class ClassFileParser extends Parser<ClassInfo> {
         FieldAndMethod[] methods = methodParser.parse();
         current = methodParser.getCurrent();
 
-        this.result = new ClassInfo(className, major, minor, constantPool, accessFlags, thisClass, superClass, interfaces, fields, methods);
+        // parse attributes
+        Parser<AttributeInfo[]> attributeParser = new AttributeParser(content, current, constantPool);
+        AttributeInfo[] attributes = attributeParser.parse();
+        current = attributeParser.getCurrent();
+
+        String className = thisClass.getContent(ConstantClassInfo.class).getName().getContent(ConstantUtf8Info.class).getContent().replace("/", ".");
+
+        this.result = new ClassInfo(className, major, minor, constantPool, accessFlags, thisClass, superClass, interfaces, fields, methods, attributes);
         return result;
     }
 

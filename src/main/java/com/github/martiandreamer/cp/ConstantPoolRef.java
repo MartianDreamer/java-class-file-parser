@@ -1,5 +1,6 @@
 package com.github.martiandreamer.cp;
 
+@SuppressWarnings("unchecked")
 public class ConstantPoolRef implements ConstantInfo {
     private final int index;
     private final ConstantInfo[] constantPool;
@@ -13,8 +14,15 @@ public class ConstantPoolRef implements ConstantInfo {
         return index;
     }
 
-    public ConstantInfo getContent() {
-        return constantPool[index];
+    public <T extends ConstantInfo> T getContent() {
+        return (T) constantPool[index];
+    }
+
+    public <T extends ConstantInfo> T getContent(Class<T> tClass) {
+        if  (tClass.isInstance(constantPool[index])) {
+            return (T) constantPool[index];
+        }
+        throw new IllegalArgumentException("Invalid type");
     }
 
     @Override

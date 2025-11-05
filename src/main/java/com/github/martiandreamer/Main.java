@@ -13,17 +13,15 @@ void main(String[] args) throws JsonProcessingException {
     final String pathString = args[args.length - 1];
     System.out.printf("Parsing file %s\n", pathString);
     final byte[] content;
-    final String className;
     try {
         Path path = Paths.get(pathString);
-        className = path.getFileName().toString();
         content = Files.readAllBytes(path);
     } catch (IOException e) {
         System.err.println("Error reading file " + pathString);
         System.exit(1);
         return;
     }
-    ClassFileParser classFileParser = new ClassFileParser(className, content);
+    ClassFileParser classFileParser = new ClassFileParser(content);
     System.out.println(objectMapper.writeValueAsString(classFileParser.parse()));
     System.exit(0);
 }

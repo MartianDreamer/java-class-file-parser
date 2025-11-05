@@ -79,6 +79,7 @@ public class AttributeParser extends Parser<AttributeInfo[]> {
         current += HALF_SIZE;
         long codeLength = parseLength();
         long offset = current;
+        current += (int) codeLength;
         CodeAttributeInfo.ExceptionTableEntry[] exceptionTable = parseExceptionTable();
         AttributeParser attributeParser = new AttributeParser(content, current, constantPool);
         AttributeInfo[] attributes = attributeParser.parse();

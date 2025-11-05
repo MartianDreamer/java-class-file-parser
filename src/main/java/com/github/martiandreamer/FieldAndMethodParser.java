@@ -9,23 +9,23 @@ import com.github.martiandreamer.cp.ConstantUtf8Info;
 import static com.github.martiandreamer.Constant.HALF_SIZE;
 import static com.github.martiandreamer.Utils.parseInt;
 
-public class FieldParser extends Parser<Field[]> {
+public class FieldAndMethodParser extends Parser<FieldAndMethod[]> {
     private final ConstantInfo[] constantPool;
-    private Field[] result;
+    private FieldAndMethod[] result;
 
-    protected FieldParser(byte[] content, int from, ConstantInfo[] constantPool) {
+    protected FieldAndMethodParser(byte[] content, int from, ConstantInfo[] constantPool) {
         super(content, from);
         this.constantPool = constantPool;
     }
 
     @Override
-    public Field[] parse() throws InvalidClassFileFormatException {
+    public FieldAndMethod[] parse() throws InvalidClassFileFormatException {
         if (result != null) {
             return result;
         }
         int count = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
-        Field[] fields = new Field[count];
+        FieldAndMethod[] fields = new FieldAndMethod[count];
         for (int i = 0; i < count; i++) {
             fields[i] = parseField();
         }
@@ -33,7 +33,7 @@ public class FieldParser extends Parser<Field[]> {
         return result;
     }
 
-    private Field parseField() throws InvalidClassFileFormatException {
+    private FieldAndMethod parseField() throws InvalidClassFileFormatException {
         int accessFlagVal = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
         AccessFlag[] accessFlags = AccessFlag.getFlags(accessFlagVal);
@@ -46,6 +46,6 @@ public class FieldParser extends Parser<Field[]> {
         AttributeParser attributeParser = new AttributeParser(content, current, constantPool);
         AttributeInfo[] attributes = attributeParser.parse();
         current = attributeParser.getCurrent();
-        return new Field(accessFlags, nameIndex, descriptorIndex, attributes);
+        return new FieldAndMethod(accessFlags, nameIndex, descriptorIndex, attributes);
     }
 }

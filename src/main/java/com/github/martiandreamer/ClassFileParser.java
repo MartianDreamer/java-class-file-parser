@@ -44,10 +44,13 @@ public class ClassFileParser extends Parser<ClassInfo> {
         int superClassId = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
         ConstantRef<ConstantClassInfo>[] interfaces = parseInterfaces(constantPool);
-        Parser<Field[]> fieldParser = new FieldParser(content, current, constantPool);
-        Field[] fields = fieldParser.parse();
+        Parser<FieldAndMethod[]> fieldParser = new FieldAndMethodParser(content, current, constantPool);
+        FieldAndMethod[] fields = fieldParser.parse();
         current = fieldParser.getCurrent();
-        this.result = new ClassInfo(className, major, minor, constantPool, accessFlags, new ConstantRef<>(thisClassId, constantPool, ConstantClassInfo.class), new ConstantRef<>(superClassId, constantPool, ConstantClassInfo.class), interfaces, fields);
+        Parser<FieldAndMethod[]> methodParser = new FieldAndMethodParser(content, current, constantPool);
+        FieldAndMethod[] methods = methodParser.parse();
+        current = methodParser.getCurrent();
+        this.result = new ClassInfo(className, major, minor, constantPool, accessFlags, new ConstantRef<>(thisClassId, constantPool, ConstantClassInfo.class), new ConstantRef<>(superClassId, constantPool, ConstantClassInfo.class), interfaces, fields, methods);
         return result;
     }
 

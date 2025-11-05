@@ -4,13 +4,13 @@ import com.github.martiandreamer.attribute.AttributeInfo;
 import com.github.martiandreamer.cp.ConstantRef;
 import com.github.martiandreamer.cp.ConstantUtf8Info;
 
-public class Field {
+public class FieldAndMethod {
     private final AccessFlag[] accessFlags;
     private final ConstantRef<ConstantUtf8Info> nameIndex;
     private final ConstantRef<ConstantUtf8Info> descriptorIndex;
     private final AttributeInfo[] attributes;
 
-    public Field(AccessFlag[] accessFlags, ConstantRef<ConstantUtf8Info> nameIndex, ConstantRef<ConstantUtf8Info> descriptorIndex, AttributeInfo[] attributes) {
+    public FieldAndMethod(AccessFlag[] accessFlags, ConstantRef<ConstantUtf8Info> nameIndex, ConstantRef<ConstantUtf8Info> descriptorIndex, AttributeInfo[] attributes) {
         this.accessFlags = accessFlags;
         this.nameIndex = nameIndex;
         this.descriptorIndex = descriptorIndex;

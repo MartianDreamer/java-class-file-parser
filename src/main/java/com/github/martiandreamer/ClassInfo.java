@@ -10,6 +10,7 @@ public record ClassInfo(String className, int major, int minor,
                         ConstantRef<ConstantClassInfo> thisClass,
                         ConstantRef<ConstantClassInfo> superClass,
                         ConstantRef<ConstantClassInfo>[] interfaces,
-                        Field[] fields
+                        FieldAndMethod[] fields,
+                        FieldAndMethod[] methods
 ) {
 }

@@ -17,7 +17,8 @@ public class StackMapFrame {
         return frameType;
     }
 
-    public int getOffsetDelta() {
+    public Integer getOffsetDelta() {
+        // TODO: calculation offsetDelta for implicit offset delta
         return offsetDelta;
     }
 

@@ -3,7 +3,12 @@ package com.github.martiandreamer.cp;
 public class ConstantFieldRefInfo extends ConstantRefInfo {
 
     public ConstantFieldRefInfo(ConstantInfo[] constantPool, int classIndex, int nameAndTypeIndex) {
-        super(FIELD_REF, constantPool, classIndex, nameAndTypeIndex);
+        super(constantPool, classIndex, nameAndTypeIndex);
+    }
+
+    @Override
+    public short getTag() {
+        return FIELD_REF;
     }
 
     @Override

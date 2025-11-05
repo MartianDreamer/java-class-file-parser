@@ -46,7 +46,21 @@ public class Parser {
         current += HALF_SIZE;
         int superClassId = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
-        this.result = new ClassInfo(className, major, minor, constantPool, accessFlags, new ConstantRef<>(thisClassId, constantPool, ConstantClassInfo.class), new ConstantRef<>(superClassId, constantPool, ConstantClassInfo.class));
+        ConstantRef<ConstantClassInfo>[] interfaces = parseInterfaces(constantPool);
+        this.result = new ClassInfo(className, major, minor, constantPool, accessFlags, new ConstantRef<>(thisClassId, constantPool, ConstantClassInfo.class), new ConstantRef<>(superClassId, constantPool, ConstantClassInfo.class), interfaces);
+        return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    private ConstantRef<ConstantClassInfo>[] parseInterfaces(ConstantInfo[] constantPool) {
+        int interfaceCount = parseInt(content, current, HALF_SIZE);
+        current += HALF_SIZE;
+        ConstantRef<ConstantClassInfo>[] result = new ConstantRef[interfaceCount];
+        for (int i = 0; i < interfaceCount; i++) {
+            int index = parseInt(content, current, HALF_SIZE);
+            current += HALF_SIZE;
+            result[i] = new ConstantRef<>(index, constantPool,  ConstantClassInfo.class);
+        }
         return result;
     }
 

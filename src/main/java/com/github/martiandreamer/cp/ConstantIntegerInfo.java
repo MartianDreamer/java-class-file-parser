@@ -1,11 +1,15 @@
 package com.github.martiandreamer.cp;
 
-public class ConstantIntegerInfo extends ConstantInfo {
+public class ConstantIntegerInfo implements ConstantValueInfo<Integer> {
     protected final int value;
 
     public ConstantIntegerInfo(int value) {
-        super(INTEGER);
         this.value = value;
+    }
+
+    @Override
+    public short getTag() {
+        return INTEGER;
     }
 
     @Override
@@ -13,7 +17,8 @@ public class ConstantIntegerInfo extends ConstantInfo {
         return "CONSTANT_Integer_info";
     }
 
-    public int getValue() {
+    @Override
+    public Integer getValue() {
         return value;
     }
 }

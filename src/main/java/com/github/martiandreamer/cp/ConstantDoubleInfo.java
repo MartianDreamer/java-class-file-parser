@@ -1,11 +1,15 @@
 package com.github.martiandreamer.cp;
 
-public class ConstantDoubleInfo extends ConstantInfo {
+public class ConstantDoubleInfo implements ConstantValueInfo<Double> {
     protected final double value;
 
     public ConstantDoubleInfo(double value) {
-        super(DOUBLE);
         this.value = value;
+    }
+
+    @Override
+    public short getTag() {
+        return DOUBLE;
     }
 
     @Override
@@ -13,7 +17,8 @@ public class ConstantDoubleInfo extends ConstantInfo {
         return "CONSTANT_Double_info";
     }
 
-    public double getValue() {
+    @Override
+    public Double getValue() {
         return value;
     }
 

@@ -10,5 +10,7 @@ public record ClassInfo(String className, int major, int minor,
                         ConstantInfo[] constantPool,
                         List<AccessFlag> accessFlags,
                         ConstantRef<ConstantClassInfo> thisClass,
-                        ConstantRef<ConstantClassInfo> superClass) {
+                        ConstantRef<ConstantClassInfo> superClass,
+                        ConstantRef<ConstantClassInfo>[] interfaces
+) {
 }

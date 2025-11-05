@@ -4,16 +4,15 @@ public class ConstantDynamicInfo extends ConstantReferenceInfo {
     protected final int bootstrapMethodAttributeIndex;
     protected final int nameAndTypeIndex;
 
-    protected ConstantDynamicInfo(short tag, ConstantInfo[] constantPool, int bootstrapMethodAttributeIndex, int nameAndTypeIndex) {
-        super(tag, constantPool);
+    public ConstantDynamicInfo(ConstantInfo[] constantPool, int bootstrapMethodAttributeIndex, int nameAndTypeIndex) {
+        super(constantPool);
         this.bootstrapMethodAttributeIndex = bootstrapMethodAttributeIndex;
         this.nameAndTypeIndex = nameAndTypeIndex;
     }
 
-    public ConstantDynamicInfo(ConstantInfo[] constantPool, int bootstrapMethodAttributeIndex, int nameAndTypeIndex) {
-        super(DYNAMIC, constantPool);
-        this.bootstrapMethodAttributeIndex = bootstrapMethodAttributeIndex;
-        this.nameAndTypeIndex = nameAndTypeIndex;
+    @Override
+    public short getTag() {
+        return DYNAMIC;
     }
 
     @Override

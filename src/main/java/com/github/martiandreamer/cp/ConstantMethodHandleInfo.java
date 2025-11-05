@@ -5,9 +5,14 @@ public class ConstantMethodHandleInfo extends ConstantReferenceInfo {
     protected final int referenceIndex;
 
     public ConstantMethodHandleInfo(ConstantInfo[] constantPool, short referenceKind, int referenceIndex) {
-        super(METHOD_HANDLE, constantPool);
+        super(constantPool);
         this.referenceKind = referenceKind;
         this.referenceIndex = referenceIndex;
+    }
+
+    @Override
+    public short getTag() {
+        return METHOD_HANDLE;
     }
 
     @Override

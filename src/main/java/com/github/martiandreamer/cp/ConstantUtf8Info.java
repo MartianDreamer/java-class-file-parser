@@ -1,11 +1,15 @@
 package com.github.martiandreamer.cp;
 
-public class ConstantUtf8Info extends ConstantInfo {
+public class ConstantUtf8Info implements ConstantInfo {
     protected String content;
 
     public ConstantUtf8Info(String content) {
-        super(UTF8);
         this.content = content;
+    }
+
+    @Override
+    public short getTag() {
+        return UTF8;
     }
 
     @Override

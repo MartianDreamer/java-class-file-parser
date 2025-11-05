@@ -5,8 +5,8 @@ public abstract class ConstantRefInfo extends ConstantReferenceInfo {
     protected final int classIndex;
     protected final int nameAndTypeIndex;
 
-    protected ConstantRefInfo(short tag, ConstantInfo[] constantPool, int classIndex, int nameAndTypeIndex) {
-        super(tag, constantPool);
+    protected ConstantRefInfo(ConstantInfo[] constantPool, int classIndex, int nameAndTypeIndex) {
+        super(constantPool);
         this.classIndex = classIndex;
         this.nameAndTypeIndex = nameAndTypeIndex;
     }

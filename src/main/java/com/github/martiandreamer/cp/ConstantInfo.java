@@ -1,37 +1,29 @@
 package com.github.martiandreamer.cp;
 
-public abstract class ConstantInfo {
-    public static final short UTF8 = 1;
-    public static final short INTEGER = 3;
-    public static final short FLOAT = 4;
-    public static final short LONG = 5;
-    public static final short DOUBLE = 6;
-    public static final short CLASS = 7;
-    public static final short STRING = 8;
-    public static final short FIELD_REF = 9;
-    public static final short METHOD_REF = 10;
-    public static final short INTERFACE_METHOD_REF = 11;
-    public static final short NAME_AND_TYPE = 12;
-    public static final short METHOD_HANDLE = 15;
-    public static final short METHOD_TYPE = 16;
-    public static final short DYNAMIC = 17;
-    public static final short INVOKE_DYNAMIC = 18;
-    public static final short MODULE = 19;
-    public static final short PACKAGE = 20;
+public interface ConstantInfo {
+    short UTF8 = 1;
+    short INTEGER = 3;
+    short FLOAT = 4;
+    short LONG = 5;
+    short DOUBLE = 6;
+    short CLASS = 7;
+    short STRING = 8;
+    short FIELD_REF = 9;
+    short METHOD_REF = 10;
+    short INTERFACE_METHOD_REF = 11;
+    short NAME_AND_TYPE = 12;
+    short METHOD_HANDLE = 15;
+    short METHOD_TYPE = 16;
+    short DYNAMIC = 17;
+    short INVOKE_DYNAMIC = 18;
+    short MODULE = 19;
+    short PACKAGE = 20;
 
-    protected final short tag;
+    short getTag();
+    String getName();
 
-    protected ConstantInfo(final short tag) {
-        this.tag = tag;
-    }
-
-    public short getTag() {
-        return tag;
-    }
-
-    public int size() {
+    default int size() {
         return 1;
     }
 
-    public abstract String getName();
 }

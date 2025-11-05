@@ -1,11 +1,15 @@
 package com.github.martiandreamer.cp;
 
-public class ConstantLongInfo extends ConstantInfo {
+public class ConstantLongInfo implements ConstantValueInfo<Long> {
     protected final long value;
 
     public ConstantLongInfo(long value) {
-        super(LONG);
         this.value = value;
+    }
+
+    @Override
+    public short getTag() {
+        return LONG;
     }
 
     @Override
@@ -13,7 +17,8 @@ public class ConstantLongInfo extends ConstantInfo {
         return "CONSTANT_Long_info";
     }
 
-    public long getValue() {
+    @Override
+    public Long getValue() {
         return value;
     }
 

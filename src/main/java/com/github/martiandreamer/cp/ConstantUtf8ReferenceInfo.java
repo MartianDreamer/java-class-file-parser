@@ -4,8 +4,8 @@ public abstract class ConstantUtf8ReferenceInfo extends ConstantReferenceInfo {
 
     protected final int index;
 
-    protected ConstantUtf8ReferenceInfo(short tag, ConstantInfo[] constantPool, int index) {
-        super(tag, constantPool);
+    protected ConstantUtf8ReferenceInfo(ConstantInfo[] constantPool, int index) {
+        super(constantPool);
         this.index = index;
     }
 

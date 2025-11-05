@@ -1,11 +1,15 @@
 package com.github.martiandreamer.cp;
 
-public class ConstantFloatInfo extends ConstantInfo {
+public class ConstantFloatInfo implements ConstantValueInfo<Float> {
     protected final float value;
 
     public ConstantFloatInfo(float value) {
-        super(FLOAT);
         this.value = value;
+    }
+
+    @Override
+    public short getTag() {
+        return FLOAT;
     }
 
     @Override
@@ -13,7 +17,8 @@ public class ConstantFloatInfo extends ConstantInfo {
         return "CONSTANT_Float_info";
     }
 
-    public float getValue() {
+    @Override
+    public Float getValue() {
         return value;
     }
 }

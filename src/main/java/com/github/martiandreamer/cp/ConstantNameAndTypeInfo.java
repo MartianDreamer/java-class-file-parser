@@ -5,9 +5,14 @@ public class ConstantNameAndTypeInfo extends ConstantReferenceInfo {
     protected final int descriptorIndex;
 
     public ConstantNameAndTypeInfo(ConstantInfo[] constantPool, int nameIndex, int descriptorIndex) {
-        super(NAME_AND_TYPE, constantPool);
+        super(constantPool);
         this.nameIndex = nameIndex;
         this.descriptorIndex = descriptorIndex;
+    }
+
+    @Override
+    public short getTag() {
+        return NAME_AND_TYPE;
     }
 
     @Override

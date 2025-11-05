@@ -1,6 +1,6 @@
 package com.github.martiandreamer.cp;
 
-import com.github.martiandreamer.InvalidClassFileFormatRuntimeException;
+import com.github.martiandreamer.InvalidClassFileFormatException;
 
 public class ConstantStringInfo implements ConstantValueInfo<String> {
     private final ConstantPoolRef string;
@@ -24,6 +24,6 @@ public class ConstantStringInfo implements ConstantValueInfo<String> {
         if (string.getContent() instanceof ConstantUtf8Info cu8i) {
             return cu8i.getContent();
         }
-        throw new InvalidClassFileFormatRuntimeException("Invalid constant pool entry " + string);
+        throw new InvalidClassFileFormatException("Invalid constant pool entry " + string);
     }
 }

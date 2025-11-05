@@ -13,7 +13,7 @@ public class CodeAttributeInfo extends AttributeInfo {
     private final ExceptionTableEntry[] exceptionTable;
     private final AttributeInfo[] attributes;
 
-    protected CodeAttributeInfo(ConstantPoolRef attributeName, int maxStack, int maxLocals, byte[] code, long offset, long codeLength, ExceptionTableEntry[] exceptionTable, AttributeInfo[] attributes) throws InvalidClassFileFormatException {
+    protected CodeAttributeInfo(ConstantPoolRef attributeName, int maxStack, int maxLocals, byte[] code, long offset, long codeLength, ExceptionTableEntry[] exceptionTable, AttributeInfo[] attributes) {
         super(attributeName);
         this.maxStack = maxStack;
         this.maxLocals = maxLocals;
@@ -54,7 +54,7 @@ public class CodeAttributeInfo extends AttributeInfo {
         private final int handlerPc;
         private final ConstantPoolRef catchType;
 
-        public ExceptionTableEntry(int startPc, int endPc, int handlerPc, ConstantPoolRef catchType) throws InvalidClassFileFormatException {
+        public ExceptionTableEntry(int startPc, int endPc, int handlerPc, ConstantPoolRef catchType) {
             if (catchType.getTag() != ConstantInfo.CLASS) {
                 throw new InvalidClassFileFormatException("Invalid catch type " + catchType);
             }

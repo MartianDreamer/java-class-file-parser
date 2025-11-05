@@ -11,7 +11,7 @@ public abstract class Parser<T> {
         this.current = from;
     }
 
-    public abstract T parse() throws InvalidClassFileFormatException;
+    public abstract T parse();
 
     public byte[] getContent() {
         return content;

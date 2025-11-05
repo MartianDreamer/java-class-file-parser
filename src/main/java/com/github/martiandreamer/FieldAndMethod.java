@@ -10,7 +10,7 @@ public class FieldAndMethod {
     private final ConstantPoolRef descriptorIndex;
     private final AttributeInfo[] attributes;
 
-    public FieldAndMethod(AccessFlag[] accessFlags, ConstantPoolRef nameIndex, ConstantPoolRef descriptorIndex, AttributeInfo[] attributes) throws InvalidClassFileFormatException {
+    public FieldAndMethod(AccessFlag[] accessFlags, ConstantPoolRef nameIndex, ConstantPoolRef descriptorIndex, AttributeInfo[] attributes) {
         if (nameIndex.getTag() != ConstantInfo.UTF8) {
             throw new InvalidClassFileFormatException("Invalid contant info type " + nameIndex);
         }

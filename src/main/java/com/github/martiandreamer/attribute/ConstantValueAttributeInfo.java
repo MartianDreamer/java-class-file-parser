@@ -7,7 +7,7 @@ import com.github.martiandreamer.cp.ConstantValueInfo;
 public class ConstantValueAttributeInfo extends AttributeInfo {
     private final ConstantPoolRef value;
 
-    public ConstantValueAttributeInfo(ConstantPoolRef attributeName, ConstantPoolRef value) throws InvalidClassFileFormatException {
+    public ConstantValueAttributeInfo(ConstantPoolRef attributeName, ConstantPoolRef value) {
         super(attributeName);
         if (!(value.getContent() instanceof ConstantValueInfo)) {
             throw new InvalidClassFileFormatException("value must be a ConstantValueInfo " + value);

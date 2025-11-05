@@ -7,7 +7,7 @@ import com.github.martiandreamer.cp.ConstantPoolRef;
 public class ObjectVariableInfo extends VariableInfo {
     private final ConstantPoolRef cpoolIndex;
 
-    public ObjectVariableInfo(ConstantPoolRef cpoolIndex) throws InvalidClassFileFormatException {
+    public ObjectVariableInfo(ConstantPoolRef cpoolIndex) {
         super(ITEM_Object);
         if (cpoolIndex.getTag() != ConstantInfo.CLASS) {
             throw new InvalidClassFileFormatException("Invalid cpool index " + cpoolIndex);

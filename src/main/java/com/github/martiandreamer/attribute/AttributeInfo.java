@@ -8,7 +8,7 @@ import com.github.martiandreamer.cp.ConstantUtf8Info;
 public abstract class AttributeInfo {
     private final ConstantPoolRef attributeName;
 
-    protected AttributeInfo(ConstantPoolRef attributeName) throws InvalidClassFileFormatException {
+    protected AttributeInfo(ConstantPoolRef attributeName) {
         if (attributeName.getTag() != ConstantInfo.UTF8) {
             throw new InvalidClassFileFormatException("Attribute name must be UTF8 " + attributeName);
         }

@@ -18,7 +18,7 @@ public class FieldAndMethodParser extends Parser<FieldAndMethod[]> {
     }
 
     @Override
-    public FieldAndMethod[] parse() throws InvalidClassFileFormatException {
+    public FieldAndMethod[] parse() {
         if (result != null) {
             return result;
         }
@@ -32,7 +32,7 @@ public class FieldAndMethodParser extends Parser<FieldAndMethod[]> {
         return result;
     }
 
-    private FieldAndMethod parseField() throws InvalidClassFileFormatException {
+    private FieldAndMethod parseField() {
         int accessFlagVal = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
         AccessFlag[] accessFlags = AccessFlag.getFlags(accessFlagVal);

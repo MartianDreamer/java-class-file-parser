@@ -15,7 +15,7 @@ public class ClassFileParser extends Parser<ClassInfo> {
     private final String className;
     private ClassInfo result;
 
-    public ClassFileParser(String className, byte[] content) throws InvalidClassFileFormatException {
+    public ClassFileParser(String className, byte[] content) {
         super(content, MAGIC_NUMBER.length);
         this.className = className;
         if (!isClassFile()) {
@@ -24,7 +24,7 @@ public class ClassFileParser extends Parser<ClassInfo> {
     }
 
     @Override
-    public ClassInfo parse() throws InvalidClassFileFormatException {
+    public ClassInfo parse() {
         if (this.result != null) {
             return this.result;
         }
@@ -70,7 +70,7 @@ public class ClassFileParser extends Parser<ClassInfo> {
         return result;
     }
 
-    private ConstantPoolRef[] parseInterfaces(ConstantInfo[] constantPool) throws InvalidClassFileFormatException {
+    private ConstantPoolRef[] parseInterfaces(ConstantInfo[] constantPool) {
         int interfaceCount = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
         ConstantPoolRef[] result = new ConstantPoolRef[interfaceCount];

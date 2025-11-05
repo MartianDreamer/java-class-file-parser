@@ -19,7 +19,7 @@ public class AttributeParser extends Parser<AttributeInfo[]> {
         this.constantPool = constantPool;
     }
 
-    public AttributeInfo[] parse() throws InvalidClassFileFormatException {
+    public AttributeInfo[] parse() {
         if (result != null) {
             return result;
         }
@@ -33,7 +33,7 @@ public class AttributeParser extends Parser<AttributeInfo[]> {
         return result;
     }
 
-    public AttributeInfo parseAttributeInfo() throws InvalidClassFileFormatException {
+    public AttributeInfo parseAttributeInfo() {
         int index = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
         ConstantPoolRef attributeName = new ConstantPoolRef(index, constantPool);
@@ -59,7 +59,7 @@ public class AttributeParser extends Parser<AttributeInfo[]> {
         };
     }
 
-    private ConstantValueAttributeInfo parseConstantValueAttributeInfo(ConstantPoolRef constantPoolRef) throws InvalidClassFileFormatException {
+    private ConstantValueAttributeInfo parseConstantValueAttributeInfo(ConstantPoolRef constantPoolRef) {
         current += WORD_SIZE;
         int index = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
@@ -67,13 +67,13 @@ public class AttributeParser extends Parser<AttributeInfo[]> {
         return new ConstantValueAttributeInfo(constantPoolRef, valueRef);
     }
 
-    private UndefinedAttributeInfo parseUndefinedAttributeInfo(ConstantPoolRef constantPoolRef) throws InvalidClassFileFormatException {
+    private UndefinedAttributeInfo parseUndefinedAttributeInfo(ConstantPoolRef constantPoolRef) {
         long length = parseLength();
         current += (int) length;
         return new UndefinedAttributeInfo(constantPoolRef, content, current, length);
     }
 
-    private CodeAttributeInfo parseCodeAttributeInfo(ConstantPoolRef constantPoolRef) throws InvalidClassFileFormatException {
+    private CodeAttributeInfo parseCodeAttributeInfo(ConstantPoolRef constantPoolRef) {
         current += WORD_SIZE;
         int maxStack = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
@@ -89,7 +89,7 @@ public class AttributeParser extends Parser<AttributeInfo[]> {
         return new CodeAttributeInfo(constantPoolRef, maxStack, maxLocals, content, offset, codeLength, exceptionTable, attributes);
     }
 
-    private CodeAttributeInfo.ExceptionTableEntry[] parseExceptionTable() throws InvalidClassFileFormatException {
+    private CodeAttributeInfo.ExceptionTableEntry[] parseExceptionTable() {
         int exceptionTableLength = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
         CodeAttributeInfo.ExceptionTableEntry[] exceptionTable = new CodeAttributeInfo.ExceptionTableEntry[exceptionTableLength];
@@ -99,7 +99,7 @@ public class AttributeParser extends Parser<AttributeInfo[]> {
         return exceptionTable;
     }
 
-    private CodeAttributeInfo.ExceptionTableEntry parseExceptionTableEntry() throws InvalidClassFileFormatException {
+    private CodeAttributeInfo.ExceptionTableEntry parseExceptionTableEntry() {
         int startPc = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
         int endPc = parseInt(content, current, HALF_SIZE);

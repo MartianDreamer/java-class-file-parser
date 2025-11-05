@@ -21,7 +21,7 @@ public class StackMapTableParser extends Parser<StackMapTableAttributeInfo> {
     }
 
     @Override
-    public StackMapTableAttributeInfo parse() throws InvalidClassFileFormatException {
+    public StackMapTableAttributeInfo parse() {
         if (result != null) {
             return result;
         }
@@ -36,7 +36,7 @@ public class StackMapTableParser extends Parser<StackMapTableAttributeInfo> {
         return result;
     }
 
-    private StackMapFrame parseStackMapFrame() throws InvalidClassFileFormatException {
+    private StackMapFrame parseStackMapFrame() {
         short frameType = parseShort(content, current, BITE_SIZE);
         current += BITE_SIZE;
         if (frameType >= 0 && frameType <= 63) {
@@ -85,7 +85,7 @@ public class StackMapTableParser extends Parser<StackMapTableAttributeInfo> {
         return offsetDelta;
     }
 
-    private VariableInfo parseVariableInfo() throws InvalidClassFileFormatException {
+    private VariableInfo parseVariableInfo() {
         short tag = parseShort(content, current, BITE_SIZE);
         current += BITE_SIZE;
         if (tag >= 0 && tag < 7) {

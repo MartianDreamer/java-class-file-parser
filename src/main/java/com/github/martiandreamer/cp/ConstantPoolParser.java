@@ -9,29 +9,10 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-import static com.github.martiandreamer.Constant.BITE_SIZE;
-import static com.github.martiandreamer.Constant.DOUBLE_SIZE;
-import static com.github.martiandreamer.Constant.HALF_SIZE;
-import static com.github.martiandreamer.Constant.WORD_SIZE;
+import static com.github.martiandreamer.Constant.*;
 import static com.github.martiandreamer.Utils.parseInt;
 import static com.github.martiandreamer.Utils.parseShort;
-import static com.github.martiandreamer.cp.ConstantInfo.CLASS;
-import static com.github.martiandreamer.cp.ConstantInfo.DOUBLE;
-import static com.github.martiandreamer.cp.ConstantInfo.DYNAMIC;
-import static com.github.martiandreamer.cp.ConstantInfo.FIELD_REF;
-import static com.github.martiandreamer.cp.ConstantInfo.FLOAT;
-import static com.github.martiandreamer.cp.ConstantInfo.INTEGER;
-import static com.github.martiandreamer.cp.ConstantInfo.INTERFACE_METHOD_REF;
-import static com.github.martiandreamer.cp.ConstantInfo.INVOKE_DYNAMIC;
-import static com.github.martiandreamer.cp.ConstantInfo.LONG;
-import static com.github.martiandreamer.cp.ConstantInfo.METHOD_HANDLE;
-import static com.github.martiandreamer.cp.ConstantInfo.METHOD_REF;
-import static com.github.martiandreamer.cp.ConstantInfo.METHOD_TYPE;
-import static com.github.martiandreamer.cp.ConstantInfo.MODULE;
-import static com.github.martiandreamer.cp.ConstantInfo.NAME_AND_TYPE;
-import static com.github.martiandreamer.cp.ConstantInfo.PACKAGE;
-import static com.github.martiandreamer.cp.ConstantInfo.STRING;
-import static com.github.martiandreamer.cp.ConstantInfo.UTF8;
+import static com.github.martiandreamer.cp.ConstantInfo.*;
 
 public class ConstantPoolParser extends Parser<ConstantInfo[]> {
     private ConstantInfo[] constantPool;
@@ -40,7 +21,7 @@ public class ConstantPoolParser extends Parser<ConstantInfo[]> {
         super(content, from);
     }
 
-    public ConstantInfo[] parse() throws InvalidClassFileFormatException {
+    public ConstantInfo[] parse() {
         if (constantPool != null) {
             return constantPool;
         }
@@ -55,7 +36,7 @@ public class ConstantPoolParser extends Parser<ConstantInfo[]> {
         return constantPool;
     }
 
-    private ConstantInfo parseConstantInfo() throws InvalidClassFileFormatException {
+    private ConstantInfo parseConstantInfo() {
         short tag = parseShort(content, current, BITE_SIZE);
         current += BITE_SIZE;
         return switch (tag) {

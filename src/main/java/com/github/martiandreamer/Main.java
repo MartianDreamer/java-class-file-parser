@@ -1,10 +1,9 @@
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.github.martiandreamer.InvalidClassFileFormatException;
 import com.github.martiandreamer.ClassFileParser;
 
-void main(String[] args) throws InvalidClassFileFormatException, JsonProcessingException {
+void main(String[] args) throws JsonProcessingException {
     ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
     if (args.length < 1) {
         System.err.println("Usage: Main <program>\nEnter class file path to parse.");

@@ -16,7 +16,7 @@ public abstract class AttributeInfo {
     }
 
     public PredefinedAttributeType getType() {
-        return PredefinedAttributeType.valueOf(((ConstantUtf8Info) attributeName.getContent()).getContent());
+        return PredefinedAttributeType.valueOf((attributeName.getContent(ConstantUtf8Info.class)).getContent());
     }
 
     public enum PredefinedAttributeType {

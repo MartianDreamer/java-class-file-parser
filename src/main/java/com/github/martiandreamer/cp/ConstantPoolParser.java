@@ -28,6 +28,7 @@ public class ConstantPoolParser extends Parser<ConstantInfo[]> {
         int count = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
         this.constantPool = new ConstantInfo[count];
+        this.constantPool[0] = new ConstantNullInfo();
         for (int i = 1; i < count;) {
             ConstantInfo constantInfo = parseConstantInfo();
             constantPool[i] = constantInfo;

@@ -1,6 +1,7 @@
 package com.github.martiandreamer.cp;
 
 public interface ConstantInfo {
+    short NULL = -1;
     short UTF8 = 1;
     short INTEGER = 3;
     short FLOAT = 4;

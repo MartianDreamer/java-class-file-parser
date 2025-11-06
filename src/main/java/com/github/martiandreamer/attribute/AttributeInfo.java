@@ -20,6 +20,17 @@ public abstract class AttributeInfo {
     }
 
     public enum PredefinedAttributeType {
-        Undefined, ConstantValue, Code, StackMapTable
+        Undefined,
+        ConstantValue,
+        Code,
+        StackMapTable,
+        Exceptions,
+        InnerClasses,
+        EnclosingMethod,
+        Synthetic,
+        Signature,
+        SourceFile,
+        SourceDebugExtension,
+        LineNumberTable
     }
 }

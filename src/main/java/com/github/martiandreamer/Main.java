@@ -10,7 +10,7 @@ void main(String[] args) throws JsonProcessingException {
         System.exit(1);
         return;
     }
-    final String pathString = args[args.length - 1];
+    final String pathString = args[0];
     System.out.printf("Parsing file %s\n", pathString);
     final byte[] content;
     try {

@@ -24,11 +24,10 @@ public class FieldAndMethodParser extends Parser<FieldAndMethod[]> {
         }
         int count = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
-        FieldAndMethod[] fields = new FieldAndMethod[count];
+        result = new FieldAndMethod[count];
         for (int i = 0; i < count; i++) {
-            fields[i] = parseField();
+            result[i] = parseField();
         }
-        this.result = fields;
         return result;
     }
 

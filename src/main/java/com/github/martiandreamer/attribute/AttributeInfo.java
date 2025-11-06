@@ -31,6 +31,8 @@ public abstract class AttributeInfo {
         Signature,
         SourceFile,
         SourceDebugExtension,
-        LineNumberTable
+        LineNumberTable,
+        LocalVariableTypeTable,
+        Deprecated
     }
 }

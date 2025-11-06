@@ -18,6 +18,8 @@ import static com.github.martiandreamer.Utils.parseLong;
 import static com.github.martiandreamer.attribute.AttributeInfo.PredefinedAttributeType;
 import static com.github.martiandreamer.attribute.InnerClassesAttributeInfo.ClassRecord;
 import static com.github.martiandreamer.attribute.LineNumberTableAttributeInfo.LineNumberTableRecord;
+import static com.github.martiandreamer.attribute.LocalVariableTypeTableAttributeInfo.LocalVariableTypeTableRecord;
+
 
 public class AttributeParser extends Parser<AttributeInfo[]> {
     private AttributeInfo[] result;
@@ -75,6 +77,11 @@ public class AttributeParser extends Parser<AttributeInfo[]> {
             case SourceFile -> parseSourceFileAttributeInfo(attributeName);
             case SourceDebugExtension -> parseSourceDebugExtensionAttributeInfo(attributeName);
             case LineNumberTable -> parseLineNumberTableAttributeInfo(attributeName);
+            case LocalVariableTypeTable -> parseLocalVariableTypeTableAttributeInfo(attributeName);
+            case Deprecated -> {
+                current += WORD_SIZE;
+                yield new DeprecatedAttributeInfo(attributeName);
+            }
             case Undefined -> parseUndefinedAttributeInfo(attributeName);
         };
     }
@@ -222,6 +229,29 @@ public class AttributeParser extends Parser<AttributeInfo[]> {
             lineNumberTable[i] = new LineNumberTableRecord(lineNumber, startPc);
         }
         return new LineNumberTableAttributeInfo(constantPoolRef, lineNumberTable);
+    }
+
+    private LocalVariableTypeTableAttributeInfo parseLocalVariableTypeTableAttributeInfo(ConstantPoolRef constantPoolRef) {
+        current += WORD_SIZE;
+        int count = parseInt(content, current, HALF_SIZE);
+        current += HALF_SIZE;
+        LocalVariableTypeTableRecord[] localVariableTypeTable = new LocalVariableTypeTableRecord[count];
+        for (int i = 0; i < count; i++) {
+            int startPc = parseInt(content, current, HALF_SIZE);
+            current += HALF_SIZE;
+            int length = parseInt(content, current, HALF_SIZE);
+            current += HALF_SIZE;
+            int nameIndex = parseInt(content, current, HALF_SIZE);
+            current += HALF_SIZE;
+            ConstantPoolRef name = new ConstantPoolRef(nameIndex, constantPool);
+            int signatureIndex = parseInt(content, current, HALF_SIZE);
+            current += HALF_SIZE;
+            ConstantPoolRef signature = new ConstantPoolRef(signatureIndex, constantPool);
+            int index = parseInt(content, current, HALF_SIZE);
+            current += HALF_SIZE;
+            localVariableTypeTable[i] = new LocalVariableTypeTableRecord(startPc, length, name, signature, index);
+        }
+        return new LocalVariableTypeTableAttributeInfo(constantPoolRef, localVariableTypeTable);
     }
 
     private ConstantPoolRef parseConstantPoolRef() {

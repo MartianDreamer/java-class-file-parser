@@ -28,7 +28,7 @@ public class InnerClassesAttributeInfo extends AttributeInfo {
             if (innerClassInfo.getTag() != ConstantInfo.CLASS) {
                 throw new InvalidClassFileFormatException("Inner class info index does not point to a CONSTANT_Class_info " + innerClassInfo);
             }
-            if (outerClassInfo.getTag() != ConstantInfo.CLASS) {
+            if (outerClassInfo.getTag() != ConstantInfo.CLASS && outerClassInfo.getTag() != ConstantInfo.NULL) {
                 throw new InvalidClassFileFormatException("Outer class info index does not point to a CONSTANT_Class_info " + outerClassInfo);
             }
             if (name.getTag() != ConstantInfo.UTF8) {

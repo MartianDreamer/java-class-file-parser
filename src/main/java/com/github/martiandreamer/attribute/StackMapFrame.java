@@ -2,23 +2,31 @@ package com.github.martiandreamer.attribute;
 
 public class StackMapFrame {
     private final short frameType;
-    private final Integer offsetDelta;
+    private final int offsetDelta;
     private final VariableInfo[] locals;
     private final VariableInfo[] stack;
+    private final StackMapFrame prevFrame;
 
-    public StackMapFrame(short frameType, Integer offsetDelta, VariableInfo[] locals, VariableInfo[] stack) {
+    public StackMapFrame(short frameType, int offsetDelta, VariableInfo[] locals, VariableInfo[] stack, StackMapFrame prevFrame) {
         this.frameType = frameType;
         this.offsetDelta = offsetDelta;
         this.locals = locals;
         this.stack = stack;
+        this.prevFrame = prevFrame;
     }
 
     public short getFrameType() {
         return frameType;
     }
 
-    public Integer getOffsetDelta() {
-        // TODO: calculation offsetDelta for implicit offset delta
+    public int getOffsetDelta() {
+        return offsetDelta;
+    }
+
+    public int getOffset() {
+        if (prevFrame != null) {
+            return prevFrame.getOffset() + offsetDelta + 1;
+        }
         return offsetDelta;
     }
 
@@ -35,7 +43,7 @@ public class StackMapFrame {
             return "SAME";
         } else if (frameType >= 64 && frameType <= 127) {
             return "SAME_LOCALS_1_STACK_ITEM";
-        } else if (frameType >= 128 && frameType <= 246) {
+        } else if (frameType == 247) {
             return "SAME_LOCALS_1_STACK_ITEM_EXTENDED";
         } else if (frameType >= 248 && frameType <= 250) {
             return "CHOP";

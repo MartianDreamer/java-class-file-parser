@@ -29,33 +29,35 @@ public class StackMapTableParser extends Parser<StackMapTableAttributeInfo> {
         int entryCount = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
         StackMapFrame[] entries = new StackMapFrame[entryCount];
+        StackMapFrame prevFame = null;
         for (int i = 0; i < entryCount; i++) {
-            entries[i] = parseStackMapFrame();
+            entries[i] = parseStackMapFrame(prevFame);
+            prevFame = entries[i];
         }
         this.result = new StackMapTableAttributeInfo(attributeName, entries);
         return result;
     }
 
-    private StackMapFrame parseStackMapFrame() {
+    private StackMapFrame parseStackMapFrame(StackMapFrame prevFrame) {
         short frameType = parseShort(content, current, BITE_SIZE);
         current += BITE_SIZE;
         if (frameType >= 0 && frameType <= 63) {
-            return new StackMapFrame(frameType, null, new VariableInfo[0], new VariableInfo[0]);
+            return new StackMapFrame(frameType, frameType, new VariableInfo[0], new VariableInfo[0], prevFrame);
         } else if (frameType >= 64 && frameType <= 127) {
-            return new StackMapFrame(frameType, null, new VariableInfo[0], new VariableInfo[]{parseVariableInfo()});
-        } else if (frameType >= 128 && frameType <= 246) {
-            return new StackMapFrame(frameType, parseOffsetDelta(), new VariableInfo[0], new VariableInfo[]{parseVariableInfo()});
+            return new StackMapFrame(frameType, frameType - 64, new VariableInfo[0], new VariableInfo[]{parseVariableInfo()}, prevFrame);
+        } else if (frameType == 247) {
+            return new StackMapFrame(frameType, parseOffsetDelta(), new VariableInfo[0], new VariableInfo[]{parseVariableInfo()}, prevFrame);
         } else if (frameType >= 248 && frameType <= 250) {
-            return new StackMapFrame(frameType, parseOffsetDelta(), new VariableInfo[0], new VariableInfo[0]);
+            return new StackMapFrame(frameType, parseOffsetDelta(), new VariableInfo[0], new VariableInfo[0], prevFrame);
         } else if (frameType == 251) {
-            return new StackMapFrame(frameType, parseOffsetDelta(), new VariableInfo[0], new VariableInfo[0]);
+            return new StackMapFrame(frameType, parseOffsetDelta(), new VariableInfo[0], new VariableInfo[0], prevFrame);
         } else if (frameType >= 252 && frameType <= 254) {
             int offsetDelta = parseOffsetDelta();
             VariableInfo[] locals = new VariableInfo[frameType - 251];
             for (int i = 0; i < frameType - 251; i++) {
                 locals[i] = parseVariableInfo();
             }
-            return new StackMapFrame(frameType, offsetDelta, locals, new VariableInfo[0]);
+            return new StackMapFrame(frameType, offsetDelta, locals, new VariableInfo[0], prevFrame);
         } else if (frameType == 255) {
             int offsetDelta = parseOffsetDelta();
 
@@ -74,7 +76,7 @@ public class StackMapTableParser extends Parser<StackMapTableAttributeInfo> {
             for (int i = 0; i < stackCount; i++) {
                 stacks[i] = parseVariableInfo();
             }
-            return new StackMapFrame(frameType, offsetDelta, locals, stacks);
+            return new StackMapFrame(frameType, offsetDelta, locals, stacks, prevFrame);
         }
         throw new InvalidClassFileFormatException("Invalid frame_type " + frameType);
     }

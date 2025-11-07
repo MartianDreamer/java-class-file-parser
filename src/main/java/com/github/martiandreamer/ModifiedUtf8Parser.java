@@ -1,6 +1,8 @@
 package com.github.martiandreamer;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.github.martiandreamer.Utils.parseInt;
 
@@ -44,6 +46,7 @@ public class ModifiedUtf8Parser extends Parser<String> {
 
 
     private final int lengthSize;
+    private String result;
 
     public ModifiedUtf8Parser(byte[] content, int from, int lengthSize) {
         super(content, from);
@@ -52,16 +55,37 @@ public class ModifiedUtf8Parser extends Parser<String> {
 
     @Override
     public String parse() {
+        if (result != null) {
+            return result;
+        }
         int length = parseInt(content, current, lengthSize);
         current += lengthSize;
         int to = current + length;
-        byte[] bytes = new byte[length];
-        int pos = 0;
+        List<Integer> codePoints = new ArrayList<>(length);
         while (current < to) {
-            int codePoint = modifiedUtf8ToCodePoint();
-            pos += codePointToStandardUtf8(codePoint, bytes, pos);
+            codePoints.add(modifiedUtf8ToCodePoint());
         }
-        return new String(bytes, 0, pos, StandardCharsets.UTF_8);
+        int stringArrayLength = codePoints.stream().map(this::sizeOfCodePoint).reduce(0, Integer::sum);
+        byte[] stringContent = new byte[stringArrayLength];
+        int pos = 0;
+        for (int codePoint : codePoints) {
+            pos += codePointToStandardUtf8(codePoint, stringContent, pos);
+        }
+        result = new String(stringContent, StandardCharsets.UTF_8);
+        return result;
+    }
+
+    private int sizeOfCodePoint(int codePoint) {
+        if (codePoint < 0b1_000_0000) {
+            return 1;
+        } else if (codePoint < 0b1_000_0000_0000) {
+            return 2;
+        } else if (codePoint < 0b1_0000_0000_0000_0000) {
+            return 3;
+        } else if (codePoint < 0b1_0_0000_0000_0000_0000_0000) {
+            return 4;
+        }
+        throw new IllegalArgumentException("Invalid code point " + codePoint);
     }
 
     private boolean isPair() {

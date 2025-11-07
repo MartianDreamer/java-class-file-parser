@@ -2,14 +2,11 @@ package com.github.martiandreamer.attribute;
 
 import com.github.martiandreamer.AccessFlag;
 import com.github.martiandreamer.InvalidClassFileFormatException;
+import com.github.martiandreamer.ModifiedUtf8Parser;
 import com.github.martiandreamer.Parser;
 import com.github.martiandreamer.cp.ConstantInfo;
 import com.github.martiandreamer.cp.ConstantPoolRef;
 import com.github.martiandreamer.cp.ConstantUtf8Info;
-
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
 
 import static com.github.martiandreamer.Constant.HALF_SIZE;
 import static com.github.martiandreamer.Constant.WORD_SIZE;
@@ -205,15 +202,10 @@ public class AttributeParser extends Parser<AttributeInfo[]> {
     }
 
     private SourceDebugExtensionAttributeInfo parseSourceDebugExtensionAttributeInfo(ConstantPoolRef constantPoolRef) {
-        int length = Math.toIntExact(parseLength());
-        try (DataInputStream dis = new DataInputStream(new ByteArrayInputStream(content, current, length))) {
-            String content = dis.readUTF();
-            return new SourceDebugExtensionAttributeInfo(constantPoolRef, content);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } finally {
-            current += length;
-        }
+        Parser<String> stringParser = new ModifiedUtf8Parser(content, current, WORD_SIZE);
+        String content = stringParser.parse();
+        current = stringParser.getCurrent();
+        return new SourceDebugExtensionAttributeInfo(constantPoolRef, content);
     }
 
     private LineNumberTableAttributeInfo parseLineNumberTableAttributeInfo(ConstantPoolRef constantPoolRef) {

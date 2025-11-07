@@ -1,11 +1,9 @@
 package com.github.martiandreamer.cp;
 
 import com.github.martiandreamer.InvalidClassFileFormatException;
+import com.github.martiandreamer.ModifiedUtf8Parser;
 import com.github.martiandreamer.Parser;
 
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -63,15 +61,10 @@ public class ConstantPoolParser extends Parser<ConstantInfo[]> {
     }
 
     private ConstantUtf8Info parseConstantUtf8Info() {
-        int length = parseInt(content, current, HALF_SIZE);
-        try (DataInputStream dis = new DataInputStream(new ByteArrayInputStream(content, current, HALF_SIZE + length))) {
-            String content = dis.readUTF();
-            return new ConstantUtf8Info(content);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } finally {
-            current += HALF_SIZE + length;
-        }
+        Parser<String> stringParser = new ModifiedUtf8Parser(content, current, HALF_SIZE);
+        String content = stringParser.parse();
+        current = stringParser.getCurrent();
+        return new ConstantUtf8Info(content);
     }
 
     private ConstantIntegerInfo parseConstantIntegerInfo() {

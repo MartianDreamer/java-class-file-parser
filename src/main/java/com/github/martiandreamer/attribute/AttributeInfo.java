@@ -34,6 +34,9 @@ public abstract class AttributeInfo {
         LineNumberTable,
         LocalVariableTypeTable,
         Deprecated,
-        RuntimeVisibleAnnotations
+        RuntimeVisibleAnnotations,
+        RuntimeInvisibleAnnotations,
+        RuntimeVisibleParameterAnnotations,
+        RuntimeInvisibleParameterAnnotations
     }
 }

@@ -5,7 +5,7 @@ import com.github.martiandreamer.cp.ConstantPoolRef;
 
 import static com.github.martiandreamer.Constant.HALF_SIZE;
 import static com.github.martiandreamer.Utils.parseInt;
-import static com.github.martiandreamer.Annotation.ElementValuePair;
+import static com.github.martiandreamer.ElementValuePair.ElementValue;
 
 public class AnnotationParser extends Parser<Annotation>{
     private final ConstantInfo[] constantPool;
@@ -25,8 +25,12 @@ public class AnnotationParser extends Parser<Annotation>{
         current += HALF_SIZE;
         ElementValuePair[] elementValuePairs = new ElementValuePair[elementValuePairCount];
         for (int i = 0; i < elementValuePairCount; i++) {
-            Parser<ElementValuePair> elementValuePairParser = new ElementValuePairParser(content, current, constantPool);
-            elementValuePairs[i] = elementValuePairParser.parse();
+            int elementNameIndex = parseInt(content, current, HALF_SIZE);
+            current+= HALF_SIZE;
+            ConstantPoolRef elementName = new ConstantPoolRef(elementNameIndex, constantPool);
+
+            Parser<ElementValue> elementValuePairParser = new ElementValueParser(content, current, constantPool);
+            elementValuePairs[i] = new  ElementValuePair(elementName, elementValuePairParser.parse());
             current = elementValuePairParser.getCurrent();
         }
         return new Annotation(type, elementValuePairs);

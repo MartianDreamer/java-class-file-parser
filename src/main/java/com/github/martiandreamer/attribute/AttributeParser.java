@@ -5,8 +5,7 @@ import com.github.martiandreamer.cp.ConstantInfo;
 import com.github.martiandreamer.cp.ConstantPoolRef;
 import com.github.martiandreamer.cp.ConstantUtf8Info;
 
-import static com.github.martiandreamer.Constant.HALF_SIZE;
-import static com.github.martiandreamer.Constant.WORD_SIZE;
+import static com.github.martiandreamer.Constant.*;
 import static com.github.martiandreamer.Utils.parseInt;
 import static com.github.martiandreamer.Utils.parseLong;
 import static com.github.martiandreamer.attribute.AttributeInfo.PredefinedAttributeType;
@@ -76,7 +75,8 @@ public class AttributeParser extends Parser<AttributeInfo[]> {
                 current += WORD_SIZE;
                 yield new DeprecatedAttributeInfo(attributeName);
             }
-            case RuntimeVisibleAnnotations -> parseRuntimeVisibleAnnotationsInfo(attributeName);
+            case RuntimeVisibleAnnotations, RuntimeInvisibleAnnotations -> parseAnnotationsAttributeInfo(attributeName);
+            case RuntimeVisibleParameterAnnotations, RuntimeInvisibleParameterAnnotations -> parseParameterAnnotationsAttributeInfo(attributeName);
             case Undefined -> parseUndefinedAttributeInfo(attributeName);
         };
     }
@@ -244,7 +244,7 @@ public class AttributeParser extends Parser<AttributeInfo[]> {
         return new LocalVariableTypeTableAttributeInfo(constantPoolRef, localVariableTypeTable);
     }
 
-    private AnnotationInfo parseRuntimeVisibleAnnotationsInfo(ConstantPoolRef attributeName) {
+    private AnnotationsAttributeInfo parseAnnotationsAttributeInfo(ConstantPoolRef attributeName) {
         current += WORD_SIZE;
         int count = parseInt(content, current, HALF_SIZE);
         current += HALF_SIZE;
@@ -254,9 +254,27 @@ public class AttributeParser extends Parser<AttributeInfo[]> {
             Annotation annotation = annotationParser.parse();
             current =  annotationParser.getCurrent();
             annotations[i] = annotation;
-            System.out.println(annotation);
         }
-        return new AnnotationInfo(attributeName, annotations);
+        return new AnnotationsAttributeInfo(attributeName, annotations);
+    }
+
+    private ParameterAnnotationsAttributeInfo parseParameterAnnotationsAttributeInfo(ConstantPoolRef attributeName) {
+        current += WORD_SIZE;
+        int parameterCount = parseInt(content, current, BITE_SIZE);
+        current += BITE_SIZE;
+
+        Annotation[][] parameterAnnotations = new Annotation[parameterCount][];
+        for (int i = 0; i < parameterCount; i++) {
+            int annotationCount = parseInt(content, current, HALF_SIZE);
+            current += HALF_SIZE;
+            parameterAnnotations[i] = new Annotation[annotationCount];
+            for (int j = 0; j < annotationCount; j++) {
+                Parser<Annotation> annotationParser = new AnnotationParser(content, current, constantPool);
+                parameterAnnotations[i][j] = annotationParser.parse();
+                current =  annotationParser.getCurrent();
+            }
+        }
+        return new ParameterAnnotationsAttributeInfo(attributeName, parameterAnnotations);
     }
 
     private ConstantPoolRef parseConstantPoolRef() {

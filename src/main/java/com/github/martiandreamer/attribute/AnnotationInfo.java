@@ -1,4 +1,18 @@
 package com.github.martiandreamer.attribute;
 
-public class AnnotationInfo {
+import com.github.martiandreamer.Annotation;
+import com.github.martiandreamer.cp.ConstantPoolRef;
+
+public class AnnotationInfo extends AttributeInfo {
+
+    private final Annotation[] annotations;
+
+    protected AnnotationInfo(ConstantPoolRef attributeName, Annotation[] annotations) {
+        super(attributeName);
+        this.annotations = annotations;
+    }
+
+    public Annotation[] getAnnotations() {
+        return annotations;
+    }
 }

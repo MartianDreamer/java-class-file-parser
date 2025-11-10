@@ -33,6 +33,7 @@ public abstract class AttributeInfo {
         SourceDebugExtension,
         LineNumberTable,
         LocalVariableTypeTable,
-        Deprecated
+        Deprecated,
+        RuntimeVisibleAnnotations
     }
 }

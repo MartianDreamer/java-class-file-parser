@@ -1,9 +1,6 @@
 package com.github.martiandreamer.attribute;
 
-import com.github.martiandreamer.AccessFlag;
-import com.github.martiandreamer.InvalidClassFileFormatException;
-import com.github.martiandreamer.ModifiedUtf8Parser;
-import com.github.martiandreamer.Parser;
+import com.github.martiandreamer.*;
 import com.github.martiandreamer.cp.ConstantInfo;
 import com.github.martiandreamer.cp.ConstantPoolRef;
 import com.github.martiandreamer.cp.ConstantUtf8Info;
@@ -79,6 +76,7 @@ public class AttributeParser extends Parser<AttributeInfo[]> {
                 current += WORD_SIZE;
                 yield new DeprecatedAttributeInfo(attributeName);
             }
+            case RuntimeVisibleAnnotations -> parseRuntimeVisibleAnnotationsInfo(attributeName);
             case Undefined -> parseUndefinedAttributeInfo(attributeName);
         };
     }
@@ -244,6 +242,21 @@ public class AttributeParser extends Parser<AttributeInfo[]> {
             localVariableTypeTable[i] = new LocalVariableTypeTableRecord(startPc, length, name, signature, index);
         }
         return new LocalVariableTypeTableAttributeInfo(constantPoolRef, localVariableTypeTable);
+    }
+
+    private AnnotationInfo parseRuntimeVisibleAnnotationsInfo(ConstantPoolRef attributeName) {
+        current += WORD_SIZE;
+        int count = parseInt(content, current, HALF_SIZE);
+        current += HALF_SIZE;
+        Annotation[] annotations = new Annotation[count];
+        for (int i = 0; i < count; i++) {
+            Parser<Annotation> annotationParser = new AnnotationParser(content, current, constantPool);
+            Annotation annotation = annotationParser.parse();
+            current =  annotationParser.getCurrent();
+            annotations[i] = annotation;
+            System.out.println(annotation);
+        }
+        return new AnnotationInfo(attributeName, annotations);
     }
 
     private ConstantPoolRef parseConstantPoolRef() {

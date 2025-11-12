@@ -37,6 +37,8 @@ public abstract class AttributeInfo {
         RuntimeVisibleAnnotations,
         RuntimeInvisibleAnnotations,
         RuntimeVisibleParameterAnnotations,
-        RuntimeInvisibleParameterAnnotations
+        RuntimeInvisibleParameterAnnotations,
+        AnnotationDefault,
+        BootstrapMethods
     }
 }

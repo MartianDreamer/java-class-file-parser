@@ -12,6 +12,7 @@ import static com.github.martiandreamer.attribute.AttributeInfo.PredefinedAttrib
 import static com.github.martiandreamer.attribute.InnerClassesAttributeInfo.ClassRecord;
 import static com.github.martiandreamer.attribute.LineNumberTableAttributeInfo.LineNumberTableRecord;
 import static com.github.martiandreamer.attribute.LocalVariableTypeTableAttributeInfo.LocalVariableTypeTableRecord;
+import static com.github.martiandreamer.attribute.BootstrapMethodsAttributeInfo.BootstrapMethod;
 
 
 public class AttributeParser extends Parser<AttributeInfo[]> {
@@ -76,7 +77,10 @@ public class AttributeParser extends Parser<AttributeInfo[]> {
                 yield new DeprecatedAttributeInfo(attributeName);
             }
             case RuntimeVisibleAnnotations, RuntimeInvisibleAnnotations -> parseAnnotationsAttributeInfo(attributeName);
-            case RuntimeVisibleParameterAnnotations, RuntimeInvisibleParameterAnnotations -> parseParameterAnnotationsAttributeInfo(attributeName);
+            case RuntimeVisibleParameterAnnotations, RuntimeInvisibleParameterAnnotations ->
+                    parseParameterAnnotationsAttributeInfo(attributeName);
+            case AnnotationDefault -> parseAnnotationDefaultAttributeInfo(attributeName);
+            case BootstrapMethods -> parseBootstrapMethodsAttributeInfo(attributeName);
             case Undefined -> parseUndefinedAttributeInfo(attributeName);
         };
     }
@@ -252,7 +256,7 @@ public class AttributeParser extends Parser<AttributeInfo[]> {
         for (int i = 0; i < count; i++) {
             Parser<Annotation> annotationParser = new AnnotationParser(content, current, constantPool);
             Annotation annotation = annotationParser.parse();
-            current =  annotationParser.getCurrent();
+            current = annotationParser.getCurrent();
             annotations[i] = annotation;
         }
         return new AnnotationsAttributeInfo(attributeName, annotations);
@@ -271,10 +275,41 @@ public class AttributeParser extends Parser<AttributeInfo[]> {
             for (int j = 0; j < annotationCount; j++) {
                 Parser<Annotation> annotationParser = new AnnotationParser(content, current, constantPool);
                 parameterAnnotations[i][j] = annotationParser.parse();
-                current =  annotationParser.getCurrent();
+                current = annotationParser.getCurrent();
             }
         }
         return new ParameterAnnotationsAttributeInfo(attributeName, parameterAnnotations);
+    }
+
+    private AnnotationDefaultAttributeInfo parseAnnotationDefaultAttributeInfo(ConstantPoolRef attributeName) {
+        current += WORD_SIZE;
+        Parser<ElementValue> elementValueParser = new ElementValueParser(content, current, constantPool);
+        ElementValue defaultValue = elementValueParser.parse();
+        current = elementValueParser.getCurrent();
+        return new AnnotationDefaultAttributeInfo(attributeName, defaultValue);
+    }
+
+    private BootstrapMethodsAttributeInfo parseBootstrapMethodsAttributeInfo(ConstantPoolRef attributeName) {
+        current += WORD_SIZE;
+        int methodCount = parseInt(content, current, HALF_SIZE);
+        current += HALF_SIZE;
+        BootstrapMethod[] bootstrapMethods = new BootstrapMethod[methodCount];
+        for (int i = 0; i < methodCount; i++) {
+            int bootstrapMethodIndex = parseInt(content, current, HALF_SIZE);
+            current += HALF_SIZE;
+            ConstantPoolRef bootstrapMethodRef = new ConstantPoolRef(bootstrapMethodIndex, constantPool);
+
+            int argumentCount = parseInt(content, current, HALF_SIZE);
+            current += HALF_SIZE;
+            ConstantPoolRef[] bootstrapArguments = new ConstantPoolRef[argumentCount];
+            for (int j = 0; j < argumentCount; j++) {
+                int bootstrapArgumentIndex = parseInt(content, current, HALF_SIZE);
+                current += HALF_SIZE;
+                bootstrapArguments[j] = new ConstantPoolRef(bootstrapArgumentIndex, constantPool);
+            }
+            bootstrapMethods[i] = new BootstrapMethod(bootstrapMethodRef, bootstrapArguments);
+        }
+        return new BootstrapMethodsAttributeInfo(attributeName, bootstrapMethods);
     }
 
     private ConstantPoolRef parseConstantPoolRef() {

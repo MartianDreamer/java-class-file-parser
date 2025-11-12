@@ -5,7 +5,6 @@ import com.github.martiandreamer.cp.ConstantPoolRef;
 
 import static com.github.martiandreamer.Constant.HALF_SIZE;
 import static com.github.martiandreamer.Utils.parseInt;
-import static com.github.martiandreamer.ElementValuePair.ElementValue;
 
 public class AnnotationParser extends Parser<Annotation>{
     private final ConstantInfo[] constantPool;
